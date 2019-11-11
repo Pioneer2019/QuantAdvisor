@@ -244,6 +244,7 @@ class WebAPIHelper {
     return m;
   }
   
+  //用 name 查找 因子 factor
   FactorInfo GetFactorInfoByName(String name){
     for(var f in m_Cache_FactorList){
       if (f.FactorName == name){
@@ -253,6 +254,16 @@ class WebAPIHelper {
     var fc = new FactorInfo();
     fc.FactorDesc="";
     return fc;
+  }
+
+  //返回函数列表
+  List<String> GetFunctionList(){
+    List<String> funcList = new List();
+    funcList.add('Linear');
+    funcList.add('Sigmoid');
+    funcList.add('LinearInt');
+    funcList.add('SigmoidInt');
+    return funcList;
   }
 
 }

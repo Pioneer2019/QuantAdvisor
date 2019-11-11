@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uitest2/sharedata.dart';
 import 'dropdownBtn_factor.dart';
 
 import 'dropdownBtn_func.dart';
@@ -10,23 +9,23 @@ import 'sharedata.dart';
 
 //import 'webapihelper.dart';
 
-class NewFactor4Model extends StatefulWidget{
+class NewFactorFilter4Model extends StatefulWidget{
 
-  final String title = "新建因子";
+  final String title = "新建因子筛选";
 
   //true: 新建模型; false: 修改模型
   bool m_IsMakeNewModel = true;
 
-  NewFactor4Model(bool isMakeNewModel){
+  NewFactorFilter4Model(bool isMakeNewModel){
     m_IsMakeNewModel = isMakeNewModel;
   }
 
    @override
-  _NewFactor4ModelState createState() => _NewFactor4ModelState();
+  _NewFactorFilter4ModelState createState() => _NewFactorFilter4ModelState();
   
 }
 
-class _NewFactor4ModelState extends State<NewFactor4Model>{
+class _NewFactorFilter4ModelState extends State<NewFactorFilter4Model>{
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +46,11 @@ class _NewFactor4ModelState extends State<NewFactor4Model>{
                 new Text('选择因子：',
                 style: TextStyle(fontSize: 16),),
 
-                new DropdownBtnFactor(FactorOrCondition.Factor),
+                new DropdownBtnFactor(FactorOrCondition.Condition),
 
-                new Text('选择函数：',
-                style: TextStyle(fontSize: 16),),
-                new DropdownBtnFunc(),
-                
-                new WeightSlider(),
+                new WeightFactorFilterSlider(FactorFilterWeight.min),
+
+                new WeightFactorFilterSlider(FactorFilterWeight.max),
             
           ]
         ),

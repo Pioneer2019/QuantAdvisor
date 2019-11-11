@@ -72,6 +72,9 @@ class FactorInModel{
   String FactorName;
 
   String FactorDesc;
+
+  //模型新建因子时用到
+  String FuncName;
 }
 
 class Cond{

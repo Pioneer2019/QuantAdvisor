@@ -1,13 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:uitest2/entityclass.dart';
+import 'package:uitest2/newfactor4model.dart';
+import 'package:uitest2/sharedata.dart';
 import 'package:uitest2/webapihelper.dart';
 
-class FactorList extends StatelessWidget
-{
-  ModelInfoEx m_ModeInfo = new ModelInfoEx();
+class FactorList extends StatefulWidget{
 
-  FactorList(ModelInfoEx modelInfo){
+  ModelInfoEx m_ModeInfo = new ModelInfoEx();
+  bool IsCreateNewFactor = false;
+
+  //true: 新建模型; false: 修改模型
+  bool IsMakeNewModel = true;
+
+  FactorList(ModelInfoEx modelInfo,bool isMakeNewModel){
     this.m_ModeInfo = modelInfo;
+    IsMakeNewModel=isMakeNewModel;
+  }
+
+  @override
+    State createState() => new _FactorListState();
+}
+class _FactorListState extends State<FactorList>
+{
+  //刷新界面
+  RefreshUI(){
+    setState(() {
+      
+    });
   }
 
   @override
@@ -46,7 +65,24 @@ class FactorList extends StatelessWidget
                           ),
 
                         new IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+
+                              if (widget.IsMakeNewModel){
+                                SharedData.instance.AddNewFactor4NewModel();
+                              }
+
+                            widget.IsCreateNewFactor = await Navigator.push(
+                              context,
+                              new MaterialPageRoute(builder: (context) => 
+                                new NewFactor4Model(widget.IsMakeNewModel))
+                              );
+
+                              if (widget.IsMakeNewModel){
+                                setState((){
+                                    
+                                });
+                              }
+                          },
                           icon: new Icon(Icons.add_box),
                           tooltip: '添加',
                         ),  
@@ -59,7 +95,7 @@ class FactorList extends StatelessWidget
         //new Divider(),
 
         new Flexible(
-            child: new FactorList1(this.m_ModeInfo),
+            child: new FactorList1(widget.m_ModeInfo,widget.IsMakeNewModel,this),
         )
         
 
@@ -68,24 +104,65 @@ class FactorList extends StatelessWidget
   }
 }
 
-class FactorList1 extends StatelessWidget
-{
+class FactorList1 extends StatelessWidget{
+
   ModelInfoEx m_ModeInfo = new ModelInfoEx();
+
+  //true: 新建模型; false: 修改模型
+  bool IsMakeNewModel = true;
+
+  FactorList1(ModelInfoEx modelInfo,bool isMakeNewModel, 
+  _FactorListState parent){
+    this.m_ModeInfo = modelInfo;
+    this.IsMakeNewModel = isMakeNewModel;
+    m_parent = parent;
+  }
 
   List<Widget> m_List = new List();
 
-  FactorList1(ModelInfoEx modelInfo){
-    this.m_ModeInfo = modelInfo;
+  _FactorListState m_parent;
+
+  @override
+  Widget build(BuildContext context)
+  {
+    if (this.IsMakeNewModel==true){
+      /*
+      Widget parent = context.ancestorWidgetOfExactType(FactorList);
+      if ((parent as FactorList).IsCreateNewFactor){
+        MakeWidgetList4New();  
+      }
+      */
+      
+      MakeWidgetList4New();  
+
+    }
+    else{
+      MakeWidgetList();  
+    }
+    
+    return new ListView(
+        //itemExtent: 25.0, 
+        
+        children: m_List,
+    );
   }
 
-  //生成 m_List 中的widget
+  //用this.m_ModeInfo.FactorList的数据 生成 m_List 中的widget
   void MakeWidgetList(){
     //添加数据
     if (this.m_ModeInfo.FactorList == null){
       this.m_ModeInfo.FactorList = new List<FactorInModel>();
     }
+    subMakeWidgetList(this.m_ModeInfo.FactorList);
+  }  
 
-    for(var f in this.m_ModeInfo.FactorList){
+  void subMakeWidgetList(List<FactorInModel> factorList){
+    
+    m_List.clear();
+
+    for(var f in factorList){
+
+      var factorDesc = WebAPIHelper.instance.GetFactorInfoByName(f.FactorName).FactorDesc;
 
       m_List.add(
         new Row(
@@ -93,7 +170,7 @@ class FactorList1 extends StatelessWidget
           children: <Widget>[
               new Expanded(
                   flex:2,
-                  child: new Text(WebAPIHelper.instance.GetFactorInfoByName(f.FactorName).FactorDesc,
+                  child: new Text(factorDesc,
                         textAlign: TextAlign.center),
                 ),
                 
@@ -113,7 +190,15 @@ class FactorList1 extends StatelessWidget
                 new Expanded(
                   flex:1,
                   child:  new IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            //print('$factorDesc');
+                            if (this.IsMakeNewModel){
+                              //删除 factorDesc
+                              DeleteFactor(factorDesc);
+                              //(parent.() as _FactorListState).RefreshUI();
+                              m_parent.RefreshUI();
+                            }
+                          },
                           icon: new Icon(Icons.delete),
                           tooltip: '删除',
                         ),
@@ -121,21 +206,17 @@ class FactorList1 extends StatelessWidget
           ],
         ),
       );
-
     }
-
   }  
 
-  @override
-  Widget build(BuildContext context)
-  {
-
-    MakeWidgetList();
-
-    return new ListView(
-        //itemExtent: 25.0, 
-        
-        children: m_List,
-    );
+  void MakeWidgetList4New(){
+    subMakeWidgetList(SharedData.instance.FactorList4NewModel);
   }
+
+  void DeleteFactor(String factorDesc){
+    if (this.IsMakeNewModel){
+      SharedData.instance.FactorList4NewModel.removeWhere((item) => item.FactorDesc == factorDesc);
+    }
+  }
+
 }

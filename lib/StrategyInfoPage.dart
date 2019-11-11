@@ -123,13 +123,13 @@ class TabBarView_StrategyInfo2 extends StatelessWidget
                 color: Color(0xffffffff),
                 alignment: Alignment.topCenter,
                 padding: EdgeInsets.all(8),
-                child: new FactorList(m_ModelInfo),
+                child: new FactorList(m_ModelInfo,false),
               ),
               Container(
                 color: Color(0xffffffff),
                 alignment: Alignment.topCenter,
                 padding: EdgeInsets.all(8),
-                child: new FactorFilterList(m_ModelInfo),
+                child: new FactorFilterList(m_ModelInfo,false),
               ),
               
               Container(
@@ -142,7 +142,7 @@ class TabBarView_StrategyInfo2 extends StatelessWidget
                 color: Color(0xffffffff),
                 alignment: Alignment.topCenter,
                 padding: EdgeInsets.all(8),
-                child: new FactorFilterList(m_ModelInfo),
+                child: new FactorFilterList(m_ModelInfo,false),
               ),
 
             ],

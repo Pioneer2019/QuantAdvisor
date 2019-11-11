@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:uitest2/entityclass.dart';
+import 'package:uitest2/sharedata.dart';
 
 import 'StrategyBasic.dart';
 import 'FactorList.dart';
 import 'FactorFilterList.dart';
+import 'sharedata.dart';
 
 
 
 ///通过TabController 定义TabBar
 
 class TabControllerPage extends StatefulWidget {
+
+  TabControllerPage(){
+    SharedData.instance.ClearNewFactorData();
+  }
+
   @override
   _TabControllerPageState createState() => _TabControllerPageState();
 }
@@ -93,13 +100,13 @@ class TabBarView_StrategyBasic extends StatelessWidget
                 color: Color(0xffffffff),
                 alignment: Alignment.topCenter,
                 padding: EdgeInsets.all(8),
-                child: new FactorList(this.m_ModelInfo),
+                child: new FactorList(this.m_ModelInfo,true),
               ),
               Container(
                 color: Color(0xffffffff),
                 alignment: Alignment.topCenter,
                 padding: EdgeInsets.all(8),
-                child: new FactorFilterList(m_ModelInfo),
+                child: new FactorFilterList(m_ModelInfo,true),
               ),
               
             ],
