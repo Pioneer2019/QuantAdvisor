@@ -19,59 +19,60 @@ class SharedData {
     return _instance;
   }
 
-  /////////////////////////////////////////////////////////////////////////
-  //新建因子的权重
-  List<FactorInModel> FactorList4NewModel = new List();
-  //true: Save;  false: cancel
-  bool SaveOrCancelAction = false;
-
-  void ClearNewFactorData(){
-    FactorList4NewModel.clear();
-    SaveOrCancelAction = false;
-  }
-
-  void AddNewFactor4NewModel(){
-    FactorList4NewModel.add(new FactorInModel());
-  }
-
-  FactorInModel GetNewFactor4NewModel(){
-    return FactorList4NewModel[FactorList4NewModel.length-1];
-  }
-  /////////////////////////////////////////////////////////////////////////
-  
-  
-  /////////////////////////////////////////////////////////////////////////
-  //新建因子筛选条件
-  List<Cond> CondList4NewModel = new List();
-  
-  void ClearNewConditionData(){
-    CondList4NewModel.clear();
-  }
-
-  void AddNewCondition4NewModel(){
-    CondList4NewModel.add(new Cond());
-  }
-
-  Cond GetNewCondition4NewModel(){
-    return CondList4NewModel[CondList4NewModel.length-1];
-  }
-  /////////////////////////////////////////////////////////////////////////
-
-
   ///////////////////////////////////////////////////////////////////////////////////////
-  ///保存模型信息
+  ///保存新建的模型信息
   ModelInfoEx4New m_ModelInfoEx4New = new ModelInfoEx4New();
 
   ClearModelInfoEx4New(ModelInfoEx4New modelInfoEx){
     m_ModelInfoEx4New.ModelName='';
     m_ModelInfoEx4New.ModelDesc='';
     m_ModelInfoEx4New.NumStock=0;
-    m_ModelInfoEx4New.IndustryList = '';
+    m_ModelInfoEx4New.IndustryList = new List();
     m_ModelInfoEx4New.DefaultInterval=0;
     m_ModelInfoEx4New.StockRange='';
     m_ModelInfoEx4New.FactorList = new List();
     m_ModelInfoEx4New.CondList = new List();
   }
+
+  /////////////////////////////////////////////////////////////////////////
+  //新建模型新建因子的权重
+  //List<FactorInModel> FactorList4NewModel = new List();
+  //true: Save;  false: cancel
+  bool SaveOrCancelAction = false;
+
+  void ClearNewFactorData(){
+    m_ModelInfoEx4New.FactorList.clear();
+    SaveOrCancelAction = false;
+  }
+
+  void AddNewFactor4NewModel(){
+    m_ModelInfoEx4New.FactorList.add(new FactorInModel());
+  }
+
+  FactorInModel GetNewFactor4NewModel(){
+    return m_ModelInfoEx4New.FactorList[m_ModelInfoEx4New.FactorList.length-1];
+  }
+  /////////////////////////////////////////////////////////////////////////
+  
+  
+  /////////////////////////////////////////////////////////////////////////
+  //新建模型新建因子筛选条件
+ 
+  void ClearNewConditionData(){
+    m_ModelInfoEx4New.CondList.clear();
+  }
+
+  void AddNewCondition4NewModel(){
+    m_ModelInfoEx4New.CondList.add(new Cond());
+  }
+
+  Cond GetNewCondition4NewModel(){
+    return m_ModelInfoEx4New.CondList[m_ModelInfoEx4New.CondList.length-1];
+  }
+  /////////////////////////////////////////////////////////////////////////
+
+
+  
 
 
 }

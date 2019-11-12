@@ -137,6 +137,12 @@ class StrategyBasic extends StatelessWidget
                         keyboardType: TextInputType.number,//键盘类型，数字键盘
 
                         decoration: InputDecoration(),
+
+                        onChanged: (text) {
+                          if (m_IsMakeNewModel==true){
+                            SharedData.instance.m_ModelInfoEx4New.NumStock = int.parse(text);
+                          }
+                        },
                         
                         controller: TextEditingController.fromValue(TextEditingValue
                             (
@@ -163,6 +169,12 @@ class StrategyBasic extends StatelessWidget
                         
                         keyboardType: TextInputType.number,//键盘类型，数字键盘
                         decoration: InputDecoration(),
+
+                        onChanged: (text) {
+                          if (m_IsMakeNewModel==true){
+                            SharedData.instance.m_ModelInfoEx4New.DefaultInterval = int.parse(text);
+                          }
+                        },
 
                         controller: TextEditingController.fromValue(TextEditingValue
                             (

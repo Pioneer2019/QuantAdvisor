@@ -3,10 +3,6 @@ import 'dart:io';
 
 import 'checkBoxList.dart';
 import 'entityclass.dart';
-import 'entityclass.dart';
-import 'entityclass.dart';
-import 'entityclass.dart';
-import 'entityclass.dart';
 
 class WebAPIHelper {
   // 工厂模式
@@ -32,6 +28,8 @@ class WebAPIHelper {
   final _url_GetModelInfo = 'http://47.102.210.159:3939/GetModel?model_name=';
 
   final _url_TestModel = 'http://47.102.210.159:3939/TestModel?';
+
+  final _url_SaveModel = 'http://47.102.210.159:3939/SaveModel?';
 
   //缓存的模型列表
   List<ModelInfo> m_Cache_ModelList = new List();
@@ -69,7 +67,10 @@ class WebAPIHelper {
             m.ModelDesc = item['ModelDesc'];
             m.NumStock = item['NumStock'];
             m.WgtMethod = item['WgtMethod'];
-            m.IndustryList = item['IndustryList'];
+
+            List<String> list1 = item['IndustryList'].toString().split(',');
+            m.IndustryList.addAll(list1);
+
             m.FacProcess = item['FacProcess'];
             m.CYBWeight = item['CYBWeight'];
             m.DefaultInterval = item['DefaultInterval'];
@@ -209,7 +210,12 @@ class WebAPIHelper {
              m.FactorList.add(fc);
         }
 
-        m.IndustryList = data['IndustryList'][0];
+        if (data['IndustryList'].length > 0){
+          for(var i in [data['IndustryList'][0]]){
+              m.IndustryList.add(i);
+          }
+        }
+        //m.IndustryList = data['IndustryList'][0];
         m.FacProcess = data['FacProcess'][0];
         m.WgtMethod = data['WgtMethod'][0];
 
@@ -298,14 +304,35 @@ class WebAPIHelper {
     return funcList;
   }
 
-  SaveModelInfo(ModelInfoEx4New modelInfo){
+  SaveModelInfo(ModelInfoEx4New modelInfo) async {
     String result='';
+
+    var httpClient = new HttpClient();
+
     try {   
       ModelInfoEx4NewJson modelJson = new ModelInfoEx4NewJson(modelInfo);
       String modelInfoStr = jsonEncode(modelJson);
-      print(modelInfoStr);
+
+      Map<String,String> map1 = new Map();
+      map1["model_data"] = modelInfoStr;
+
+      print(json.encode(map1));
+
+      var request = await httpClient.postUrl(Uri.parse(this._url_SaveModel));
+      request.add(utf8.encode(json.encode(map1)));
+
+      var response = await request.close();
+
+      print(response.statusCode);
+
+      if (response.statusCode == HttpStatus.ok) {
+        var json = await response.transform(utf8.decoder).join();
+        print(json);
+      }
+
     } catch (exception) {
       result = 'Failed jsonEncode';
+      print(exception);
     }
   }
 
