@@ -31,6 +31,7 @@ class WebAPIHelper {
 
   final _url_GetModelInfo = 'http://47.102.210.159:3939/GetModel?model_name=';
 
+  final _url_TestModel = 'http://47.102.210.159:3939/TestModel?';
 
   //缓存的模型列表
   List<ModelInfo> m_Cache_ModelList = new List();
@@ -259,6 +260,32 @@ class WebAPIHelper {
     var fc = new FactorInfo();
     fc.FactorDesc="";
     return fc;
+  }
+
+  //得到模型信息
+  Future<String> TestModel(String name, String begin, String end) async {
+    var httpClient = new HttpClient();
+
+    String result;
+
+    try {
+      String url = this._url_TestModel+"end_date=$end&begin_date=$begin&model_name=$name";
+      print(url);
+      var request = await httpClient.getUrl(Uri.parse(url));
+      var response = await request.close();
+      if (response.statusCode == HttpStatus.ok) {
+        var json = await response.transform(utf8.decoder).join();
+        result = json;
+
+      } else {
+        result =
+            'Error getting IP address:\nHttp status ${response.statusCode}';
+      }
+    } catch (exception) {
+      result = 'Failed getting IP address';
+    }
+
+    return result;
   }
 
   //返回函数列表
