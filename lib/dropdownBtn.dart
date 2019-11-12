@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
+import 'sharedata.dart';
+
 class LearnDropdownButton extends StatefulWidget{
 
   String m_CurrentStockRange = "";
-  LearnDropdownButton(String stockRange){
+
+  //true: 新建模型; false: 修改模型
+  bool m_IsMakeNewModel = true;
+
+  LearnDropdownButton(String stockRange,bool isMakeNewModel){
       m_CurrentStockRange = stockRange;
+      m_IsMakeNewModel = isMakeNewModel;
+
       if (m_CurrentStockRange == null){
         m_CurrentStockRange = "";
       }
@@ -99,6 +107,11 @@ class _LearnDropdownButton extends State<LearnDropdownButton>{
               hint:new Text('选股范围'),//当没有默认值的时候可以设置的提示
               value: m_value,//下拉菜单选择完之后显示给用户的值
               onChanged: (T){//下拉菜单item点击之后的回调
+
+                if (widget.m_IsMakeNewModel){
+                  SharedData.instance.m_ModelInfoEx4New.StockRange = T;
+                }
+
                 setState(() {
                   m_value=T;
                 });
@@ -111,6 +124,7 @@ class _LearnDropdownButton extends State<LearnDropdownButton>{
               
 //              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
               iconSize: 50.0,//设置三角标icon的大小
+              isExpanded: true,
     );
   }
 }

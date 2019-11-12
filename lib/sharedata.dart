@@ -57,6 +57,23 @@ class SharedData {
   }
   /////////////////////////////////////////////////////////////////////////
 
+
+  ///////////////////////////////////////////////////////////////////////////////////////
+  ///保存模型信息
+  ModelInfoEx4New m_ModelInfoEx4New = new ModelInfoEx4New();
+
+  ClearModelInfoEx4New(ModelInfoEx4New modelInfoEx){
+    m_ModelInfoEx4New.ModelName='';
+    m_ModelInfoEx4New.ModelDesc='';
+    m_ModelInfoEx4New.NumStock=0;
+    m_ModelInfoEx4New.IndustryList = '';
+    m_ModelInfoEx4New.DefaultInterval=0;
+    m_ModelInfoEx4New.StockRange='';
+    m_ModelInfoEx4New.FactorList = new List();
+    m_ModelInfoEx4New.CondList = new List();
+  }
+
+
 }
 
 enum FactorOrCondition{

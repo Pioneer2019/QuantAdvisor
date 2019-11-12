@@ -6,6 +6,8 @@ import 'StrategyBasic.dart';
 import 'FactorList.dart';
 import 'FactorFilterList.dart';
 import 'sharedata.dart';
+import 'sharedata.dart';
+import 'webapihelper.dart';
 
 
 
@@ -14,6 +16,10 @@ import 'sharedata.dart';
 class TabControllerPage extends StatefulWidget {
 
   TabControllerPage(){
+    
+    //清空新模型成员变量值
+    SharedData.instance.ClearModelInfoEx4New(SharedData.instance.m_ModelInfoEx4New);
+
     SharedData.instance.ClearNewFactorData();
   }
 
@@ -67,7 +73,17 @@ class _TabControllerPageState extends State<TabControllerPage> with SingleTicker
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(icon: Icon(Icons.save), title: Text('保存并退出')),
               BottomNavigationBarItem(icon: Icon(Icons.cancel), title: Text('放弃新建')),
+              
             ],
+
+            onTap:  (index) {
+              //保存新模型
+              WebAPIHelper.instance.SaveModelInfo(SharedData.instance.m_ModelInfoEx4New);
+
+              //返回到调用页面
+              Navigator.pop(context,true);
+            }
+
           ),
         ),
       );
@@ -94,7 +110,7 @@ class TabBarView_StrategyBasic extends StatelessWidget
                 color: Color(0xffffffff),
                 alignment: Alignment.topCenter,
                 padding: EdgeInsets.all(8),
-                child: new StrategyBasic(m_ModelInfo),
+                child: new StrategyBasic(m_ModelInfo,true),
               ),
               Container(
                 color: Color(0xffffffff),

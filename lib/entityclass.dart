@@ -55,6 +55,78 @@ class ModelInfoEx{
   int SkipHead;
 }
 
+class ModelInfoEx4New{
+
+  String ModelName;
+
+  String ModelDesc;
+  
+  List<FactorInModel> FactorList;
+
+  String IndustryList;
+
+  int NumStock;
+
+  int DefaultInterval;
+
+  String StockRange;
+
+  List<Cond> CondList;
+
+}
+
+class ModelInfoEx4NewJson{
+
+  List<String> ModelName = new List();
+
+  List<String> ModelDesc = new List();
+  
+  List<FactorInModel> FactorList = new List();
+
+  List<String> IndustryList = new List();
+
+  List<int> NumStock = new List();
+
+  List<int> DefaultInterval = new List();
+
+  List<String> StockRange = new List();
+
+  List<Cond> CondList = new List();
+
+  ModelInfoEx4NewJson(ModelInfoEx4New modelInfo){
+    
+    ModelName.add(modelInfo.ModelName);
+    ModelDesc.add(modelInfo.ModelDesc);
+    NumStock.add(modelInfo.NumStock);
+    IndustryList.add(modelInfo.IndustryList);
+    DefaultInterval.add(modelInfo.DefaultInterval);
+    StockRange.add(modelInfo.StockRange);
+
+    for(var f in modelInfo.FactorList){
+      FactorList.add(f);
+    }
+    
+    for(var c in modelInfo.CondList){
+      CondList.add(c);
+    }
+
+  }
+
+  Map<String,dynamic> toJson() =>
+  {
+    'ModelName' : ModelName,
+    'ModelDesc' : ModelDesc,
+    'NumStock' : NumStock,
+    'IndustryList' : IndustryList,
+    'DefaultInterval' : DefaultInterval,
+    'StockRange' : StockRange,
+    'FactorList' : FactorList,
+    'CondList' : CondList,
+  };
+
+
+}
+
 class FactorInfo{
 
   String UserID;
@@ -74,7 +146,15 @@ class FactorInModel{
   String FactorDesc;
 
   //模型新建因子时用到
-  String FuncName;
+  String FactorFunc;
+
+  Map<String,dynamic> toJson() =>
+  {
+    'FactorName' : FactorName,
+    'FactorWeight' : FactorWeight,
+    'FactorFunc' : FactorFunc,
+  };
+
 }
 
 class Cond{
@@ -84,4 +164,12 @@ class Cond{
   int CondMin;
 
   int CondMax;
+
+  Map<String,dynamic> toJson() =>
+  {
+    'CondName' : CondName,
+    'CondMin' : CondMin,
+    'CondMax' : CondMax,
+  };
+
 }

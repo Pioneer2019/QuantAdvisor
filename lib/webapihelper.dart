@@ -1,6 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'checkBoxList.dart';
+import 'entityclass.dart';
+import 'entityclass.dart';
+import 'entityclass.dart';
+import 'entityclass.dart';
 import 'entityclass.dart';
 
 class WebAPIHelper {
@@ -264,6 +269,17 @@ class WebAPIHelper {
     funcList.add('LinearInt');
     funcList.add('SigmoidInt');
     return funcList;
+  }
+
+  SaveModelInfo(ModelInfoEx4New modelInfo){
+    String result='';
+    try {   
+      ModelInfoEx4NewJson modelJson = new ModelInfoEx4NewJson(modelInfo);
+      String modelInfoStr = jsonEncode(modelJson);
+      print(modelInfoStr);
+    } catch (exception) {
+      result = 'Failed jsonEncode';
+    }
   }
 
 }
