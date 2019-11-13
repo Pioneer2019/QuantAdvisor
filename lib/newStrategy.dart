@@ -77,11 +77,19 @@ class _newStrategyPageState extends State<newStrategyPage> with SingleTickerProv
             ],
 
             onTap:  (index) {
-              //保存新模型
-              WebAPIHelper.instance.SaveModelInfo(SharedData.instance.m_ModelInfoEx4New);
 
-              //返回到调用页面
-              Navigator.pop(context,true);
+              if (index == 0){
+                //保存新模型
+                WebAPIHelper.instance.SaveModelInfo(SharedData.instance.m_ModelInfoEx4New);
+
+                //返回到调用页面
+                Navigator.pop(context,true);
+              }
+              else if (index == 1){
+                //返回到调用页面
+                Navigator.pop(context,false);
+              }
+              
             }
 
           ),

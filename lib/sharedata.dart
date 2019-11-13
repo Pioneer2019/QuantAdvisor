@@ -3,6 +3,7 @@ import 'entityclass.dart';
 import 'entityclass.dart';
 import 'entityclass.dart';
 import 'entityclass.dart';
+import 'main.dart';
 
 class SharedData {
   // 工厂模式
@@ -71,10 +72,8 @@ class SharedData {
   }
   /////////////////////////////////////////////////////////////////////////
 
-
-  
-
-
+  //主页上的 StrategyListState 对象
+  StrategyListState m_Mainform_StrategyList;
 }
 
 enum FactorOrCondition{

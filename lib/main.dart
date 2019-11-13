@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:uitest2/entityclass.dart';
+import 'package:uitest2/sharedata.dart';
 import 'newStrategy.dart';
 import 'StrategyInfoPage.dart';
 
@@ -60,13 +61,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               BottomNavigationBarItem(icon: Icon(Icons.exit_to_app), title: Text('退出')),
             ],
-            onTap:  (index) {
+            onTap:  (index) async {
               if (index == 0)
               {
-                Navigator.push(
+                bool br = await Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => new newStrategyPage())
                   );
+
+                if (br){
+                  SharedData.instance.m_Mainform_StrategyList.GetModelListAsync();
+                }
               }
             },
           ),
@@ -97,6 +102,7 @@ class StrategyListState extends State<StrategyList>
       await WebAPIHelper.instance.GetFactorList();  
     }
 
+    //根据模型列表生成ListTile数组
     List<Widget> GetModelList(){
 
       List<Widget> list = new List();
@@ -155,6 +161,7 @@ class StrategyListState extends State<StrategyList>
 
     //延迟得到模型列表后赋值给_list,再刷新界面
     GetModelListAsync() async {
+
       _listData = await WebAPIHelper.instance.GetModelList();    
 
       setState((){
@@ -176,11 +183,12 @@ class StrategyListState extends State<StrategyList>
   @override
   Widget build(BuildContext context)
   {
+      SharedData.instance.m_Mainform_StrategyList = this;
 
-          return new Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: GetModelList(),
-          );
+      return new Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: GetModelList(),
+      );
         
   }
 }
