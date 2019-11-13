@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
               {
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(builder: (context) => new TabControllerPage())
+                  new MaterialPageRoute(builder: (context) => new newStrategyPage())
                   );
               }
             },

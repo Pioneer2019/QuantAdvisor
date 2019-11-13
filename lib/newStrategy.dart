@@ -13,9 +13,9 @@ import 'webapihelper.dart';
 
 ///通过TabController 定义TabBar
 
-class TabControllerPage extends StatefulWidget {
+class newStrategyPage extends StatefulWidget {
 
-  TabControllerPage(){
+  newStrategyPage(){
     
     //清空新模型成员变量值
     SharedData.instance.ClearModelInfoEx4New(SharedData.instance.m_ModelInfoEx4New);
@@ -24,10 +24,10 @@ class TabControllerPage extends StatefulWidget {
   }
 
   @override
-  _TabControllerPageState createState() => _TabControllerPageState();
+  _newStrategyPageState createState() => _newStrategyPageState();
 }
 
-class _TabControllerPageState extends State<TabControllerPage> with SingleTickerProviderStateMixin{
+class _newStrategyPageState extends State<newStrategyPage> with SingleTickerProviderStateMixin{
 
   TabController m_tabController;
 
