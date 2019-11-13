@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'webapihelper.dart';
 
 class BackTest extends StatefulWidget
@@ -24,17 +25,15 @@ class _BackTestState extends State<BackTest>
    @override
   Widget build(BuildContext context)
   {
+    Size deviceSize = MediaQuery.of(context).size;
     //return Flex(
       return Column(
         //crossAxisAlignment: CrossAxisAlignment.stretch,
         //mainAxisSize: MainAxisSize.max,
        //direction: Axis.vertical,
        children: <Widget>[
-         
          new Row(
-           
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-           
            children: <Widget>[
                 new Expanded(
                   flex:2,
@@ -122,7 +121,7 @@ class _BackTestState extends State<BackTest>
         new BackTestTabControl(m_Result),
 
        ]
-    );
+);
   }
 }
 
@@ -181,15 +180,22 @@ class _BackTestTabControlState extends State<BackTestTabControl> with SingleTick
   }
 }
 
+class BacktestValue {
+  final int seq;
+  final double value;
+
+  BacktestValue(this.seq, this.value);
+}
 
 class TabBarView_BackTest extends StatelessWidget{
+  Size deviceSize;
   TabController m_tabController;
   String summary;
   double model_annual_ret;
   double model_mdd;
   double model_sharpe;
   double avg_turnover;
-
+  List<charts.Series<BacktestValue, int>> seriesList;
 
   TabBarView_BackTest(TabController tabControl, String result)
   {
@@ -203,19 +209,37 @@ class TabBarView_BackTest extends StatelessWidget{
       avg_turnover = data['avg_turnover']*100;
       var formatter = new NumberFormat("#,###.##");
       summary = "年化收益率=${formatter.format(model_annual_ret)}%,最大回撤=${formatter.format(model_mdd)}%\n夏普比=${formatter.format(model_sharpe)},平均调仓换手率=${formatter.format(avg_turnover)}%";
+      var model_daily_rtn = data['model_daily_rtn'];
+      print(model_daily_rtn['Value'].length);
+      List<BacktestValue> seriesData = [];
+      for (var i=0; i< model_daily_rtn['Value'].length; i++) {
+        seriesData.add(new BacktestValue(i, model_daily_rtn['Value'][i]));
+      }
+      seriesList = [
+        new charts.Series<BacktestValue, int>(
+        id: 'Value',
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (BacktestValue value, _) => value.seq,
+        measureFn: (BacktestValue value, _) => value.value,
+        data: seriesData,
+      )
+      ];
     } else {
       summary = "";
+      seriesList = [];
     }
   }
 
   @override
   Widget build(BuildContext context){
+    deviceSize = MediaQuery.of(context).size;
     print('TabBarView_BackTest build');
+    print(deviceSize);
     return new SizedBox(
       
       
-      width: 380.0,
-      height: 380.0,
+      width: deviceSize.width*0.9,
+      height: deviceSize.height*0.5,
 
       child: new TabBarView(
           
@@ -223,20 +247,18 @@ class TabBarView_BackTest extends StatelessWidget{
                   
         
         children: <Widget>[
-              Container(
-                color: Color(0xffffffff),
-                alignment: Alignment.topCenter,
-                padding: EdgeInsets.all(0),
-                height: 1100,
-                child: Column
-                (
-                    children: <Widget>[
-                      new Text(summary),
-                    ],
-                  )
-                
-                
-                    
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new Text(summary),
+                    new SizedBox(
+                      width: deviceSize.width*0.85,
+                      height: 200,
+                      child:new charts.LineChart(seriesList),
+                    )
+                  ],
+                )
               ),
 
              Container(
