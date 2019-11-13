@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:uitest2/entityclass.dart';
 import 'dropdownBtn.dart';
 import 'checkBoxList.dart';
+import 'sharedata.dart';
 
 //显示策略基本信息的部件
 class StrategyBasic extends StatelessWidget
 {
   ModelInfoEx m_ModelInfo=new ModelInfoEx();
 
-  StrategyBasic(ModelInfoEx modeInfo){
+  //true: 新建模型; false: 修改模型
+  bool m_IsMakeNewModel = true;
+
+  StrategyBasic(ModelInfoEx modeInfo,bool isMakeNewModel){
     m_ModelInfo = modeInfo;
     print(m_ModelInfo.ModelDesc);
+    m_IsMakeNewModel = isMakeNewModel;
   }
 
   @override
@@ -32,11 +37,18 @@ class StrategyBasic extends StatelessWidget
                   child: new TextField(
                         
                         decoration: InputDecoration(),
+                        onChanged: (text) {
+                          //value = text;
+                          if (m_IsMakeNewModel==true){
+                            SharedData.instance.m_ModelInfoEx4New.ModelName = text;
+                          }
+                        },
 
                         controller: TextEditingController.fromValue(TextEditingValue
                             (
-                              text: '${m_ModelInfo.ModelName == null ? "": m_ModelInfo.ModelName}',  //判断keyword是否为空
+                              text: '${m_IsMakeNewModel==false ? m_ModelInfo.ModelName : SharedData.instance.m_ModelInfoEx4New.ModelName}',  //判断keyword是否为空
                           ), 
+                          
                         ),
                   ),
                 ),
@@ -58,9 +70,16 @@ class StrategyBasic extends StatelessWidget
                   child: new TextField(
                         decoration: InputDecoration(),
 
+                        onChanged: (text) {
+                          //value = text;
+                          if (m_IsMakeNewModel==true){
+                            SharedData.instance.m_ModelInfoEx4New.ModelDesc = text;
+                          }
+                        },
+
                         controller: TextEditingController.fromValue(TextEditingValue
                             (
-                              text: '${m_ModelInfo.ModelDesc == null ? "": m_ModelInfo.ModelDesc}',  //判断keyword是否为空
+                              text: '${m_IsMakeNewModel==false ? m_ModelInfo.ModelDesc : SharedData.instance.m_ModelInfoEx4New.ModelDesc}',  //判断keyword是否为空
                           ), 
                         ),
 
@@ -83,7 +102,7 @@ class StrategyBasic extends StatelessWidget
                 
                 new Expanded(
                   flex:5,
-                  child: new LearnDropdownButton(m_ModelInfo.StockRange), 
+                  child: new LearnDropdownButton(m_ModelInfo.StockRange,this.m_IsMakeNewModel), 
                 ),
            ]
          ),
@@ -98,7 +117,7 @@ class StrategyBasic extends StatelessWidget
                 
                 new Expanded(
                   flex:5,
-                  child: new IndustryList(this.m_ModelInfo),
+                  child: new IndustryList(this.m_ModelInfo,this.m_IsMakeNewModel),
                 ),
            ]
          ),
@@ -118,10 +137,16 @@ class StrategyBasic extends StatelessWidget
                         keyboardType: TextInputType.number,//键盘类型，数字键盘
 
                         decoration: InputDecoration(),
+
+                        onChanged: (text) {
+                          if (m_IsMakeNewModel==true){
+                            SharedData.instance.m_ModelInfoEx4New.NumStock = int.parse(text);
+                          }
+                        },
                         
                         controller: TextEditingController.fromValue(TextEditingValue
                             (
-                              text: '${m_ModelInfo.NumStock == null ? "": m_ModelInfo.NumStock}',  //判断keyword是否为空
+                              text: '${m_IsMakeNewModel==false ? m_ModelInfo.NumStock: SharedData.instance.m_ModelInfoEx4New.NumStock}',  //判断keyword是否为空
                           ), 
                         ),
 
@@ -145,9 +170,15 @@ class StrategyBasic extends StatelessWidget
                         keyboardType: TextInputType.number,//键盘类型，数字键盘
                         decoration: InputDecoration(),
 
+                        onChanged: (text) {
+                          if (m_IsMakeNewModel==true){
+                            SharedData.instance.m_ModelInfoEx4New.DefaultInterval = int.parse(text);
+                          }
+                        },
+
                         controller: TextEditingController.fromValue(TextEditingValue
                             (
-                              text: '${m_ModelInfo.DefaultInterval == null ? "": m_ModelInfo.DefaultInterval}',  //判断keyword是否为空
+                              text: '${m_IsMakeNewModel==false ? m_ModelInfo.DefaultInterval : SharedData.instance.m_ModelInfoEx4New.DefaultInterval}',  //判断keyword是否为空
                           ), 
                         ),
                         ), 

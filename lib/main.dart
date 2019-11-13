@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:uitest2/entityclass.dart';
+import 'package:uitest2/sharedata.dart';
 import 'newStrategy.dart';
 import 'StrategyInfoPage.dart';
 
@@ -35,6 +36,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> _list = new List();
 
+  //刷新界面
+  RefreshUI(){
+    setState(() {
+      
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       //模型列表
-      body: new StrategyList(),
+      body: new StrategyList(this),
 
       bottomNavigationBar: BottomNavigationBar( // 底部导航
             items: <BottomNavigationBarItem>[
@@ -53,14 +61,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               BottomNavigationBarItem(icon: Icon(Icons.exit_to_app), title: Text('退出')),
             ],
-            onTap:  (index) {
+            onTap:  (index) async {
               if (index == 0)
               {
-                Navigator.push(
+                bool br = await Navigator.push(
                   context,
-                  //new MaterialPageRoute(builder: (context) => new TabControllerPage()),
-                  new MaterialPageRoute(builder: (context) => new TabControllerPage())
+                  new MaterialPageRoute(builder: (context) => new newStrategyPage())
                   );
+
+                if (br){
+                  SharedData.instance.m_Mainform_StrategyList.GetModelListAsync();
+                }
               }
             },
           ),
@@ -72,13 +83,18 @@ class _MyHomePageState extends State<MyHomePage> {
 class StrategyList extends StatefulWidget {
     @override
     State createState() => new StrategyListState();
+
+    _MyHomePageState Parent;
+    StrategyList(_MyHomePageState parent){
+      Parent = parent;
+    }
 }
 
 class StrategyListState extends State<StrategyList>
 {
 
     List<ModelInfo> _listData = new List();
-    List<Widget> _list = new List();
+    //List<Widget> _list = new List();
 
     //初始化得到系统数据
     GetSystemDataAsync() async {
@@ -86,34 +102,70 @@ class StrategyListState extends State<StrategyList>
       await WebAPIHelper.instance.GetFactorList();  
     }
 
-    //延迟得到模型列表后赋值给_list,再刷新界面
-    GetModelListAsync() async {
-      _listData = await WebAPIHelper.instance.GetModelList();    
+    //根据模型列表生成ListTile数组
+    List<Widget> GetModelList(){
 
-      setState((){
-            for (int i = 0; i < _listData.length; i++) {
+      List<Widget> list = new List();
+
+      for (int i = 0; i < _listData.length; i++) {
               var modelName = _listData[i].ModelName;
-              _list.add(new Center(
+              list.add(new Center(
                 child: ListTile(
                   leading: new Icon(Icons.launch),
                   title: new Text(modelName),
-                  trailing: new Icon(Icons.keyboard_arrow_right),
+                  trailing: 
+                  new SizedBox(width: 100, height: 50,
+                  child: new Row(          
 
-                  onTap: ()
-                  {
-                    //print('$modelName');
+                      mainAxisSize: MainAxisSize.min,
 
-                    //显示当前策略信息
-                      Navigator.push(
-                      context,
-                      new MaterialPageRoute(builder: (context) => new StrategyInfoPage(modelName))
-                      );
-                  },
+                      children: <Widget>[
+                      
+                      new IconButton(
+                        
+                        //删除当前模型
+                        onPressed:() async {
+                         bool br = await WebAPIHelper.instance.RemoveModelInfo(modelName);
 
+                         if (br){
+                           GetModelListAsync();
+                         }
 
+                        },
+
+                        icon: new Icon(Icons.delete_forever),
+                        tooltip: '删除',
+                          ),
+
+                      new IconButton(
+                        onPressed:(){
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(builder: (context) => new StrategyInfoPage(modelName))
+                            );
+                        },
+
+                        icon: new Icon(Icons.keyboard_arrow_right),
+                        tooltip: "模型信息",
+                      ),
+
+                      
+                    ]),
+                
+                ),
                 ),
               ));
             }
+        return list;
+    }
+
+    //延迟得到模型列表后赋值给_list,再刷新界面
+    GetModelListAsync() async {
+
+      _listData = await WebAPIHelper.instance.GetModelList();    
+
+      setState((){
+            
           });
       
     }
@@ -131,11 +183,12 @@ class StrategyListState extends State<StrategyList>
   @override
   Widget build(BuildContext context)
   {
+      SharedData.instance.m_Mainform_StrategyList = this;
 
-          return new Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-            children: _list,
-          );
+      return new Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: GetModelList(),
+      );
         
   }
 }

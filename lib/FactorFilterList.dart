@@ -111,7 +111,7 @@ class FactorFilterList1 extends StatelessWidget
 
     if (this.IsMakeNewModel){
 
-      subMakeWidgetList(SharedData.instance.CondList4NewModel);
+      subMakeWidgetList(SharedData.instance.m_ModelInfoEx4New.CondList);
 
     }
     else{

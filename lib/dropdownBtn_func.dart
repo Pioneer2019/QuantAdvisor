@@ -60,7 +60,7 @@ class _DropdownBtnFunc extends State<DropdownBtnFunc>{
                   m_value=T;
 
                   if (this.IsMakeNewModel){
-                    SharedData.instance.GetNewFactor4NewModel().FuncName = m_value;
+                    SharedData.instance.GetNewFactor4NewModel().FactorFunc = m_value;
                   }
 
 

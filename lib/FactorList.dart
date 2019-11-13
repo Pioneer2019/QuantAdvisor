@@ -210,12 +210,12 @@ class FactorList1 extends StatelessWidget{
   }  
 
   void MakeWidgetList4New(){
-    subMakeWidgetList(SharedData.instance.FactorList4NewModel);
+    subMakeWidgetList(SharedData.instance.m_ModelInfoEx4New.FactorList);
   }
 
   void DeleteFactor(String factorDesc){
     if (this.IsMakeNewModel){
-      SharedData.instance.FactorList4NewModel.removeWhere((item) => item.FactorDesc == factorDesc);
+      SharedData.instance.m_ModelInfoEx4New.FactorList.removeWhere((item) => item.FactorDesc == factorDesc);
     }
   }
 

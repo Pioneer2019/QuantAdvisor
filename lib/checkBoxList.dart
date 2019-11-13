@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'sharedata.dart';
 import 'webapihelper.dart';
 import 'entityclass.dart';
 
@@ -6,9 +7,13 @@ class IndustryList extends StatefulWidget {
   
   ModelInfoEx m_ModelInfo = new ModelInfoEx();
 
-  IndustryList(ModelInfoEx modeInfo){
+  //true: 新建模型; false: 修改模型
+  bool m_IsMakeNewModel = true;
+
+  IndustryList(ModelInfoEx modeInfo, bool isMakeNewModel){
     m_ModelInfo = modeInfo;
     print(m_ModelInfo.IndustryList);
+    this.m_IsMakeNewModel = isMakeNewModel;
   }
 
   @override
@@ -22,26 +27,39 @@ class IndustryListState extends State<IndustryList> {
   //列表是否选中值
   List<bool> m_isChecks = new List();
 
+  //初始化m_isChecks
+  void InitialCheckList(){
+
+    if (m_isChecks.length == 0){
+      m_isChecks = new List(WebAPIHelper.instance.m_Cache_IndustryList.length);
+      for(int i=0;i<m_isChecks.length;i++){
+        m_isChecks[i] = false;
+      }
+    }
+
+    if (widget.m_IsMakeNewModel){
+      
+    }
+    else{
+      for(int i=0;i<m_isChecks.length;i++){
+        var industryName = WebAPIHelper.instance.m_Cache_IndustryList[i];
+        if (widget.m_ModelInfo.IndustryList.contains(industryName) == true){
+          m_isChecks[i]=true;
+        }
+        else{
+          m_isChecks[i]=false;
+        }
+      }
+    }
+    
+  }  
+
   //初始化行业列表
-  void InitialList(){
+  void InitialList() {
 
     bool isCheck = false;
 
-    m_isChecks = new List(WebAPIHelper.instance.m_Cache_IndustryList.length);
-
-    for(int i=0;i<m_isChecks.length;i++){
-
-      var industryName = WebAPIHelper.instance.m_Cache_IndustryList[i];
-      if (widget.m_ModelInfo.IndustryList == null){
-        widget.m_ModelInfo.IndustryList ="";
-      }
-      if (widget.m_ModelInfo.IndustryList.indexOf(industryName)>=0){
-          m_isChecks[i]=true;
-      }
-      else{
-        m_isChecks[i]=false;
-      }
-    }
+    InitialCheckList();
 
     m_List.clear();
 
@@ -54,6 +72,10 @@ class IndustryListState extends State<IndustryList> {
           onChanged: (bool){
             setState(() {
               m_isChecks[i] = bool;
+
+              //更新 数据
+              UpdateDataSource(bool,name);
+
             });
           },
           title: Text(name),
@@ -64,6 +86,24 @@ class IndustryListState extends State<IndustryList> {
       );
     }
 
+  }
+
+  //更新数据
+  void UpdateDataSource(bool checked,String itemName){
+    
+    if (widget.m_IsMakeNewModel){
+      if (checked){
+        if (SharedData.instance.m_ModelInfoEx4New.IndustryList.contains(itemName)==false){
+          SharedData.instance.m_ModelInfoEx4New.IndustryList.add(itemName);
+        }
+      }
+      else{
+        if (SharedData.instance.m_ModelInfoEx4New.IndustryList.contains(itemName)==true){
+          SharedData.instance.m_ModelInfoEx4New.IndustryList.remove(itemName);
+        }
+      }
+      
+    }
   }
 
   //全选/全不选切换
