@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'checkBoxList.dart';
 import 'entityclass.dart';
 
 class WebAPIHelper {
@@ -30,6 +29,8 @@ class WebAPIHelper {
   final _url_TestModel = 'http://47.102.210.159:3939/TestModel?';
 
   final _url_SaveModel = 'http://47.102.210.159:3939/SaveModel?';
+
+  final _url_RemoveModel = 'http://47.102.210.159:3939/RemoveModel?';
 
   //缓存的模型列表
   List<ModelInfo> m_Cache_ModelList = new List();
@@ -304,7 +305,9 @@ class WebAPIHelper {
     return funcList;
   }
 
+  //保存模型信息
   SaveModelInfo(ModelInfoEx4New modelInfo) async {
+    
     String result='';
 
     var httpClient = new HttpClient();
@@ -333,6 +336,39 @@ class WebAPIHelper {
     } catch (exception) {
       result = 'Failed jsonEncode';
       print(exception);
+    }
+  }
+
+  //删除模型信息
+  Future<bool> RemoveModelInfo(String modelName) async {
+    String result='';
+
+    var httpClient = new HttpClient();
+
+    try {   
+
+      Map<String,String> map1 = new Map();
+      map1["model_name"] = modelName;
+
+      print(json.encode(map1));
+
+      var request = await httpClient.postUrl(Uri.parse(this._url_RemoveModel));
+      request.add(utf8.encode(json.encode(map1)));
+
+      var response = await request.close();
+
+      print(response.statusCode);
+
+      if (response.statusCode == HttpStatus.ok) {
+        var json = await response.transform(utf8.decoder).join();
+        print(json);
+        return true;
+      }
+
+    } catch (exception) {
+      result = 'Failed call web api';
+      print(exception);
+      return false;
     }
   }
 

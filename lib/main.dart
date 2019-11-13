@@ -35,6 +35,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> _list = new List();
 
+  //刷新界面
+  RefreshUI(){
+    setState(() {
+      
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       //模型列表
-      body: new StrategyList(),
+      body: new StrategyList(this),
 
       bottomNavigationBar: BottomNavigationBar( // 底部导航
             items: <BottomNavigationBarItem>[
@@ -58,7 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
               {
                 Navigator.push(
                   context,
-                  //new MaterialPageRoute(builder: (context) => new TabControllerPage()),
                   new MaterialPageRoute(builder: (context) => new TabControllerPage())
                   );
               }
@@ -72,13 +78,18 @@ class _MyHomePageState extends State<MyHomePage> {
 class StrategyList extends StatefulWidget {
     @override
     State createState() => new StrategyListState();
+
+    _MyHomePageState Parent;
+    StrategyList(_MyHomePageState parent){
+      Parent = parent;
+    }
 }
 
 class StrategyListState extends State<StrategyList>
 {
 
     List<ModelInfo> _listData = new List();
-    List<Widget> _list = new List();
+    //List<Widget> _list = new List();
 
     //初始化得到系统数据
     GetSystemDataAsync() async {
@@ -86,34 +97,68 @@ class StrategyListState extends State<StrategyList>
       await WebAPIHelper.instance.GetFactorList();  
     }
 
+    List<Widget> GetModelList(){
+
+      List<Widget> list = new List();
+
+      for (int i = 0; i < _listData.length; i++) {
+              var modelName = _listData[i].ModelName;
+              list.add(new Center(
+                child: ListTile(
+                  leading: new Icon(Icons.launch),
+                  title: new Text(modelName),
+                  trailing: 
+                  new SizedBox(width: 100, height: 50,
+                  child: new Row(          
+
+                      mainAxisSize: MainAxisSize.min,
+
+                      children: <Widget>[
+                      
+                      new IconButton(
+                        
+                        //删除当前模型
+                        onPressed:() async {
+                         bool br = await WebAPIHelper.instance.RemoveModelInfo(modelName);
+
+                         if (br){
+                           GetModelListAsync();
+                         }
+
+                        },
+
+                        icon: new Icon(Icons.delete_forever),
+                        tooltip: '删除',
+                          ),
+
+                      new IconButton(
+                        onPressed:(){
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(builder: (context) => new StrategyInfoPage(modelName))
+                            );
+                        },
+
+                        icon: new Icon(Icons.keyboard_arrow_right),
+                        tooltip: "模型信息",
+                      ),
+
+                      
+                    ]),
+                
+                ),
+                ),
+              ));
+            }
+        return list;
+    }
+
     //延迟得到模型列表后赋值给_list,再刷新界面
     GetModelListAsync() async {
       _listData = await WebAPIHelper.instance.GetModelList();    
 
       setState((){
-            for (int i = 0; i < _listData.length; i++) {
-              var modelName = _listData[i].ModelName;
-              _list.add(new Center(
-                child: ListTile(
-                  leading: new Icon(Icons.launch),
-                  title: new Text(modelName),
-                  trailing: new Icon(Icons.keyboard_arrow_right),
-
-                  onTap: ()
-                  {
-                    //print('$modelName');
-
-                    //显示当前策略信息
-                      Navigator.push(
-                      context,
-                      new MaterialPageRoute(builder: (context) => new StrategyInfoPage(modelName))
-                      );
-                  },
-
-
-                ),
-              ));
-            }
+            
           });
       
     }
@@ -134,7 +179,7 @@ class StrategyListState extends State<StrategyList>
 
           return new Column(
               mainAxisAlignment: MainAxisAlignment.start,
-            children: _list,
+              children: GetModelList(),
           );
         
   }
