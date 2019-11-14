@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uitest2/entityclass.dart';
 import 'package:uitest2/sharedata.dart';
+import 'package:uitest2/showdialog.dart';
 
 import 'StrategyBasic.dart';
 import 'FactorList.dart';
@@ -79,6 +80,12 @@ class _newStrategyPageState extends State<newStrategyPage> with SingleTickerProv
             onTap:  (index) {
 
               if (index == 0){
+
+                //新建模型时，必须输入 的 条件 ，模型名 ，选股范围，行业，选股个数，调仓天数，打分设置 都必须要有输入
+                var br = CheckInputValue4Save();
+                if (br==false){
+                  return;
+                }
                 //保存新模型
                 WebAPIHelper.instance.SaveModelInfo(SharedData.instance.m_ModelInfoEx4New);
 
@@ -96,6 +103,15 @@ class _newStrategyPageState extends State<newStrategyPage> with SingleTickerProv
         ),
       );
   }
+
+  //新建模型时，必须输入 的 条件 ，模型名 ，选股范围，行业，选股个数，调仓天数，打分设置 都必须要有输入
+  bool CheckInputValue4Save(){
+
+    return Dialog4Save.instance.CheckInputValue4Save(
+      SharedData.instance.m_ModelInfoEx4New,context,true);
+    
+  }
+
 }
 
 class TabBarView_StrategyBasic extends StatelessWidget

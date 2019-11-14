@@ -8,6 +8,7 @@ import 'FactorList.dart';
 import 'FactorFilterList.dart';
 
 import 'backTest.dart';
+import 'showdialog.dart';
 
 
 class StrategyInfoPage extends StatefulWidget {
@@ -94,8 +95,16 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
             onTap:  (index) {
 
               if (index == 0){
-                //保存模型信息
+
                 ModelInfoEx4Save modelInfo4Save = SharedData.instance.ConvertModelInfoEx4Save(widget.m_CurrentModel);
+
+                var br = Dialog4Save.instance.CheckInputValue4Save(
+                      modelInfo4Save,context,true);
+                if (br==false){
+                  return;
+                }
+
+                //保存模型信息
                 WebAPIHelper.instance.SaveModelInfo(modelInfo4Save);
 
                 //返回到调用页面
