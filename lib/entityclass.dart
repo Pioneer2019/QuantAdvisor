@@ -55,7 +55,7 @@ class ModelInfoEx{
   int SkipHead;
 }
 
-class ModelInfoEx4New{
+class ModelInfoEx4Save{
 
   String ModelName = "";
 
@@ -93,7 +93,7 @@ class ModelInfoEx4NewJson{
 
   List<Cond> CondList = new List();
 
-  ModelInfoEx4NewJson(ModelInfoEx4New modelInfo){
+  ModelInfoEx4NewJson(ModelInfoEx4Save modelInfo){
     
     ModelName.add(modelInfo.ModelName);
     ModelDesc.add(modelInfo.ModelDesc);
@@ -143,14 +143,14 @@ class FactorInfo{
 
 class FactorInModel{
 
-  int   FactorWeight;                                                                                                                                                     
+  int   FactorWeight = 0;                                                                                                                                                     
 
-  String FactorName;
+  String FactorName = "";
 
-  String FactorDesc;
+  String FactorDesc = "";
 
   //模型新建因子时用到
-  String FactorFunc;
+  String FactorFunc = "";
 
   Map<String,dynamic> toJson() =>
   {
@@ -165,9 +165,9 @@ class Cond{
 
   String CondName;
 
-  int CondMin;
+  int CondMin = 0;
 
-  int CondMax;
+  int CondMax = 0;
 
   Map<String,dynamic> toJson() =>
   {

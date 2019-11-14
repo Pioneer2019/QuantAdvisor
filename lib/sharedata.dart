@@ -22,9 +22,9 @@ class SharedData {
 
   ///////////////////////////////////////////////////////////////////////////////////////
   ///保存新建的模型信息
-  ModelInfoEx4New m_ModelInfoEx4New = new ModelInfoEx4New();
+  ModelInfoEx4Save m_ModelInfoEx4New = new ModelInfoEx4Save();
 
-  ClearModelInfoEx4New(ModelInfoEx4New modelInfoEx){
+  ClearModelInfoEx4New(ModelInfoEx4Save modelInfoEx){
     m_ModelInfoEx4New.ModelName='';
     m_ModelInfoEx4New.ModelDesc='';
     m_ModelInfoEx4New.NumStock=0;
@@ -74,6 +74,25 @@ class SharedData {
 
   //主页上的 StrategyListState 对象
   StrategyListState m_Mainform_StrategyList;
+
+  //转换函数
+  ModelInfoEx4Save ConvertModelInfoEx4Save(ModelInfoEx modelInfo){
+    ModelInfoEx4Save modelInfo4Save = new ModelInfoEx4Save();
+
+    modelInfo4Save.ModelName = modelInfo.ModelName;
+    modelInfo4Save.ModelDesc = modelInfo.ModelDesc;
+
+    modelInfo4Save.FactorList.addAll(modelInfo.FactorList);
+    modelInfo4Save.IndustryList.addAll(modelInfo.IndustryList);
+
+    modelInfo4Save.NumStock = modelInfo.NumStock;
+    modelInfo4Save.DefaultInterval = modelInfo.DefaultInterval;
+    
+    modelInfo4Save.StockRange = modelInfo.StockRange;
+    modelInfo4Save.CondList.addAll(modelInfo.CondList);
+    
+    return modelInfo4Save;
+  }
 }
 
 enum FactorOrCondition{

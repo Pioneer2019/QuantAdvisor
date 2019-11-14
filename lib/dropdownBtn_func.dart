@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uitest2/entityclass.dart';
 import 'package:uitest2/newfactor4model.dart';
 import 'package:uitest2/webapihelper.dart';
 
@@ -6,15 +7,21 @@ import 'sharedata.dart';
 
 class DropdownBtnFunc extends StatefulWidget{
 
+  ModelInfoEx m_ModelInfo = new ModelInfoEx();
+  //true: 新建模型; false: 修改模型
+  bool m_IsMakeNewModel=false;
+
+  DropdownBtnFunc(ModelInfoEx modelInfo,bool isMakeNewModel){
+    m_ModelInfo = modelInfo;
+    m_IsMakeNewModel = isMakeNewModel;
+  }
+
   @override
   State<StatefulWidget> createState() {
     return _DropdownBtnFunc();
   }
 }
 class _DropdownBtnFunc extends State<DropdownBtnFunc>{
-
-  //true: 新建模型; false: 修改模型
-  bool IsMakeNewModel=false;
 
   //系统函数列表，放到下拉列表框中
   List<DropdownMenuItem> getListData(){
@@ -48,8 +55,8 @@ class _DropdownBtnFunc extends State<DropdownBtnFunc>{
   @override
   Widget build(BuildContext context) {
 
-    Widget parent = context.ancestorWidgetOfExactType(NewFactor4Model);
-    this.IsMakeNewModel = (parent as NewFactor4Model).m_IsMakeNewModel;
+    //Widget parent = context.ancestorWidgetOfExactType(NewFactor4Model);
+    //this.IsMakeNewModel = (parent as NewFactor4Model).m_IsMakeNewModel;
     
     return new DropdownButton(
               items: getListData(),
@@ -59,10 +66,12 @@ class _DropdownBtnFunc extends State<DropdownBtnFunc>{
                 setState(() {
                   m_value=T;
 
-                  if (this.IsMakeNewModel){
+                  if (widget.m_IsMakeNewModel){
                     SharedData.instance.GetNewFactor4NewModel().FactorFunc = m_value;
                   }
-
+                  else{
+                    widget.m_ModelInfo.FactorList[widget.m_ModelInfo.FactorList.length-1].FactorFunc = m_value;
+                  }
 
                 });
               },

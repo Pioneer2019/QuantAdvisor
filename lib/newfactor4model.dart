@@ -3,6 +3,7 @@ import 'package:uitest2/sharedata.dart';
 import 'dropdownBtn_factor.dart';
 
 import 'dropdownBtn_func.dart';
+import 'entityclass.dart';
 import 'weightslider.dart';
 import 'sharedata.dart';
 
@@ -14,11 +15,14 @@ class NewFactor4Model extends StatefulWidget{
 
   final String title = "新建因子";
 
+  ModelInfoEx m_ModeInfo = new ModelInfoEx();
+
   //true: 新建模型; false: 修改模型
   bool m_IsMakeNewModel = true;
 
-  NewFactor4Model(bool isMakeNewModel){
+  NewFactor4Model(ModelInfoEx modelInfo, bool isMakeNewModel){
     m_IsMakeNewModel = isMakeNewModel;
+    m_ModeInfo = modelInfo;
   }
 
    @override
@@ -47,13 +51,13 @@ class _NewFactor4ModelState extends State<NewFactor4Model>{
                 new Text('选择因子：',
                 style: TextStyle(fontSize: 16),),
 
-                new DropdownBtnFactor(FactorOrCondition.Factor),
+                new DropdownBtnFactor(widget.m_ModeInfo,widget.m_IsMakeNewModel, FactorOrCondition.Factor),
 
                 new Text('选择函数：',
                 style: TextStyle(fontSize: 16),),
-                new DropdownBtnFunc(),
+                new DropdownBtnFunc(widget.m_ModeInfo,widget.m_IsMakeNewModel),
                 
-                new WeightSlider(),
+                new WeightSlider(widget.m_ModeInfo,widget.m_IsMakeNewModel),
             
           ]
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uitest2/entityclass.dart';
+import 'package:uitest2/sharedata.dart';
 import 'package:uitest2/webapihelper.dart';
 
 import 'StrategyBasic.dart';
@@ -33,11 +34,11 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
 
   _GetModelInfoExAsync() async {
 
-      ModelInfoEx m = await WebAPIHelper.instance.GetModelInfoExByName(widget.m_ModelName);
+    ModelInfoEx m = await WebAPIHelper.instance.GetModelInfoExByName(widget.m_ModelName);
 
-      setState((){
-        widget.m_CurrentModel = m;
-      });
+    setState((){
+      widget.m_CurrentModel = m;
+    });
 
   }
 
@@ -65,7 +66,7 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
           appBar: AppBar(
             title: Text('策略详情'),
             bottom: TabBar(
@@ -89,6 +90,24 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
               BottomNavigationBarItem(icon: Icon(Icons.save), title: Text('保存')),
               BottomNavigationBarItem(icon: Icon(Icons.hotel), title: Text('返回')),
             ],
+
+            onTap:  (index) {
+
+              if (index == 0){
+                //保存模型信息
+                ModelInfoEx4Save modelInfo4Save = SharedData.instance.ConvertModelInfoEx4Save(widget.m_CurrentModel);
+                WebAPIHelper.instance.SaveModelInfo(modelInfo4Save);
+
+                //返回到调用页面
+                Navigator.pop(context,true);
+              }
+              else if (index == 1){
+                //返回到调用页面
+                Navigator.pop(context,false);
+              }
+              
+            }
+
           ),
         ),
       );

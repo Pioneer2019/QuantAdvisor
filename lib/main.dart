@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       //模型列表
-      body: new StrategyList(this),
+      body: new StrategyList(),
 
       bottomNavigationBar: BottomNavigationBar( // 底部导航
             items: <BottomNavigationBarItem>[
@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   new MaterialPageRoute(builder: (context) => new newStrategyPage())
                   );
-
+                if (br==null) { br = false;}
                 if (br){
                   SharedData.instance.m_Mainform_StrategyList.GetModelListAsync();
                 }
@@ -84,10 +84,6 @@ class StrategyList extends StatefulWidget {
     @override
     State createState() => new StrategyListState();
 
-    _MyHomePageState Parent;
-    StrategyList(_MyHomePageState parent){
-      Parent = parent;
-    }
 }
 
 class StrategyListState extends State<StrategyList>
@@ -153,6 +149,12 @@ class StrategyListState extends State<StrategyList>
                     ]),
                 
                 ),
+                onTap: (){
+                  Navigator.push(
+                            context,
+                            new MaterialPageRoute(builder: (context) => new StrategyInfoPage(modelName))
+                            );
+                },
                 ),
               ));
             }

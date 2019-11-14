@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:uitest2/sharedata.dart';
 import 'package:uitest2/webapihelper.dart';
 
-import 'newfactor4model.dart';
-import 'newfactorfilter4model.dart';
+import 'entityclass.dart';
+
 import 'webapihelper.dart';
 
 class DropdownBtnFactor extends StatefulWidget{
 
-//true: 新建模型; false: 修改模型
-  bool IsMakeNewModel=false;
+  ModelInfoEx m_ModeInfo = new ModelInfoEx();
+
+  //true: 新建模型; false: 修改模型
+  bool m_IsMakeNewModel=false;
+
   FactorOrCondition m_type = FactorOrCondition.Factor;
 
-  DropdownBtnFactor(FactorOrCondition type){
+  DropdownBtnFactor(ModelInfoEx modelInfo, bool isMakeNewModel, FactorOrCondition type){
+    m_ModeInfo = modelInfo;
+    m_IsMakeNewModel = isMakeNewModel;
     m_type = type;
   }
 
@@ -21,9 +26,9 @@ class DropdownBtnFactor extends StatefulWidget{
     return _DropdownBtnFactor();
   }
 }
-class _DropdownBtnFactor extends State<DropdownBtnFactor>{
 
-  
+
+class _DropdownBtnFactor extends State<DropdownBtnFactor>{
 
   //得到系统因子列表，放在下拉列表框中
   List<DropdownMenuItem> getListData(){
@@ -59,18 +64,48 @@ class _DropdownBtnFactor extends State<DropdownBtnFactor>{
     value=getListData()[0].value;
   }*/
 
+  //处理用户选择 因子 项目
+  void procSelectFactorItem(){
+
+    if (widget.m_IsMakeNewModel){
+      if (widget.m_type == FactorOrCondition.Factor){
+        SharedData.instance.GetNewFactor4NewModel().FactorName = m_value;
+        SharedData.instance.GetNewFactor4NewModel().FactorDesc = 
+          WebAPIHelper.instance.GetFactorInfoByName(m_value).FactorDesc;  
+      }
+      else{
+        SharedData.instance.GetNewCondition4NewModel().CondName = m_value;
+      }
+    }
+    else
+    {
+      if (widget.m_type == FactorOrCondition.Factor){
+        FactorInModel factor = widget.m_ModeInfo.FactorList[widget.m_ModeInfo.FactorList.length-1];
+        factor.FactorName = m_value;
+        factor.FactorDesc = WebAPIHelper.instance.GetFactorInfoByName(m_value).FactorDesc;  
+      }
+      else{
+        Cond cond = widget.m_ModeInfo.CondList[widget.m_ModeInfo.CondList.length-1];
+        cond.CondName = m_value;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     
+    /*
+    这段代码可以作为 使用 context.ancestorWidgetOfExactType的参考
     Widget parent = null;
     if (widget.m_type == FactorOrCondition.Factor){
       parent = context.ancestorWidgetOfExactType(NewFactor4Model);
-      widget.IsMakeNewModel = (parent as NewFactor4Model).m_IsMakeNewModel; 
+      widget.m_IsMakeNewModel = (parent as NewFactor4Model).m_IsMakeNewModel; 
     }
     else{
       parent = context.ancestorWidgetOfExactType(NewFactorFilter4Model);
       widget.IsMakeNewModel = (parent as NewFactorFilter4Model).m_IsMakeNewModel; 
     }
+    */
 
     return new DropdownButton(
               items: getListData(),
@@ -80,16 +115,7 @@ class _DropdownBtnFactor extends State<DropdownBtnFactor>{
                 setState(() {
                   m_value=T;
 
-                  if (widget.IsMakeNewModel){
-                    if (widget.m_type == FactorOrCondition.Factor){
-                      SharedData.instance.GetNewFactor4NewModel().FactorName = m_value;
-                      SharedData.instance.GetNewFactor4NewModel().FactorDesc = 
-                        WebAPIHelper.instance.GetFactorInfoByName(m_value).FactorDesc;  
-                    }
-                    else{
-                      SharedData.instance.GetNewCondition4NewModel().CondName = m_value;
-                    }
-                  }
+                  procSelectFactorItem();
 
                 });
               },

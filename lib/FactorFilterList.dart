@@ -55,13 +55,16 @@ class _FactorFilterListState extends State<FactorFilterList>
                         new IconButton(
                           onPressed: () async {
                             if (widget.IsMakeNewModel){
-                                SharedData.instance.AddNewCondition4NewModel();
-                              }
+                              SharedData.instance.AddNewCondition4NewModel();
+                            }
+                            else{
+                              widget.m_ModeInfo.CondList.add(new Cond());
+                            }
 
                             widget.IsCreateNewFactor = await Navigator.push(
                               context,
                               new MaterialPageRoute(builder: (context) => 
-                                new NewFactorFilter4Model(widget.IsMakeNewModel))
+                                new NewFactorFilter4Model(widget.m_ModeInfo, widget.IsMakeNewModel))
                               );
 
                               if (widget.IsMakeNewModel){
@@ -130,13 +133,15 @@ class FactorFilterList1 extends StatelessWidget
 
       for(var f in condList){
 
+        var factorDesc = WebAPIHelper.instance.GetFactorInfoByName(f.CondName).FactorDesc;
+
         m_List.add(
           new Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
                 new Expanded(
                     flex:2,
-                    child: new Text(WebAPIHelper.instance.GetFactorInfoByName(f.CondName).FactorDesc,
+                    child: new Text(factorDesc,
                           textAlign: TextAlign.center),
                   ),
                   
@@ -185,7 +190,18 @@ class FactorFilterList1 extends StatelessWidget
                   new Expanded(
                     flex:1,
                     child:  new IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              //删除当前 cond
+                              if (this.IsMakeNewModel){
+
+                              }
+                              else{
+                                var factorName = WebAPIHelper.instance.GetFactorInfoByDesc(factorDesc);
+                                this.m_ModelInfo.CondList.removeWhere((item) => item.CondName == factorName);
+                              }
+                              
+
+                            },
                             icon: new Icon(Icons.delete),
                             tooltip: '删除',
                           ),

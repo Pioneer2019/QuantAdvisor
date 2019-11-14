@@ -92,18 +92,25 @@ class IndustryListState extends State<IndustryList> {
   void UpdateDataSource(bool checked,String itemName){
     
     if (widget.m_IsMakeNewModel){
-      if (checked){
-        if (SharedData.instance.m_ModelInfoEx4New.IndustryList.contains(itemName)==false){
-          SharedData.instance.m_ModelInfoEx4New.IndustryList.add(itemName);
+      procSelectIndustry(checked, itemName, SharedData.instance.m_ModelInfoEx4New.IndustryList);
+    }
+    else{
+      procSelectIndustry(checked, itemName, widget.m_ModelInfo.IndustryList);
+    }
+  }
+
+  //处理鼠标点选 项目的 checked 选择框
+  void procSelectIndustry(bool checked, String itemName, List<String> industryList){
+    if (checked){
+        if (industryList.contains(itemName)==false){
+          industryList.add(itemName);
         }
       }
       else{
-        if (SharedData.instance.m_ModelInfoEx4New.IndustryList.contains(itemName)==true){
-          SharedData.instance.m_ModelInfoEx4New.IndustryList.remove(itemName);
+        if (industryList.contains(itemName)==true){
+          industryList.remove(itemName);
         }
       }
-      
-    }
   }
 
   //全选/全不选切换

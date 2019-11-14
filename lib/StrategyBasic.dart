@@ -40,7 +40,10 @@ class StrategyBasic extends StatelessWidget
                         onChanged: (text) {
                           //value = text;
                           if (m_IsMakeNewModel==true){
-                            SharedData.instance.m_ModelInfoEx4New.ModelName = text;
+                            SharedData.instance.m_ModelInfoEx4New.ModelName = text.trim();
+                          }
+                          else{
+                            this.m_ModelInfo.ModelName = text.trim();
                           }
                         },
 
@@ -73,7 +76,10 @@ class StrategyBasic extends StatelessWidget
                         onChanged: (text) {
                           //value = text;
                           if (m_IsMakeNewModel==true){
-                            SharedData.instance.m_ModelInfoEx4New.ModelDesc = text;
+                            SharedData.instance.m_ModelInfoEx4New.ModelDesc = text.trim();
+                          }
+                          else{
+                            this.m_ModelInfo.ModelDesc = text.trim();
                           }
                         },
 
@@ -102,7 +108,7 @@ class StrategyBasic extends StatelessWidget
                 
                 new Expanded(
                   flex:5,
-                  child: new LearnDropdownButton(m_ModelInfo.StockRange,this.m_IsMakeNewModel), 
+                  child: new LearnDropdownButton(m_ModelInfo,this.m_IsMakeNewModel), 
                 ),
            ]
          ),
@@ -142,6 +148,9 @@ class StrategyBasic extends StatelessWidget
                           if (m_IsMakeNewModel==true){
                             SharedData.instance.m_ModelInfoEx4New.NumStock = int.parse(text);
                           }
+                          else{
+                            this.m_ModelInfo.NumStock = int.parse(text);
+                          }
                         },
                         
                         controller: TextEditingController.fromValue(TextEditingValue
@@ -173,6 +182,9 @@ class StrategyBasic extends StatelessWidget
                         onChanged: (text) {
                           if (m_IsMakeNewModel==true){
                             SharedData.instance.m_ModelInfoEx4New.DefaultInterval = int.parse(text);
+                          }
+                          else{
+                            this.m_ModelInfo.DefaultInterval = int.parse(text);
                           }
                         },
 

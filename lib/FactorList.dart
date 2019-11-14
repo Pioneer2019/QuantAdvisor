@@ -67,14 +67,18 @@ class _FactorListState extends State<FactorList>
                         new IconButton(
                           onPressed: () async {
 
-                              if (widget.IsMakeNewModel){
-                                SharedData.instance.AddNewFactor4NewModel();
-                              }
+                            //为了保存数据，先新建一个Factor
+                            if (widget.IsMakeNewModel){
+                              SharedData.instance.AddNewFactor4NewModel();
+                            }
+                            else{
+                              widget.m_ModeInfo.FactorList.add(new FactorInModel());
+                            }
 
                             widget.IsCreateNewFactor = await Navigator.push(
                               context,
                               new MaterialPageRoute(builder: (context) => 
-                                new NewFactor4Model(widget.IsMakeNewModel))
+                                new NewFactor4Model(widget.m_ModeInfo,widget.IsMakeNewModel))
                               );
 
                               if (widget.IsMakeNewModel){
@@ -126,17 +130,13 @@ class FactorList1 extends StatelessWidget{
   Widget build(BuildContext context)
   {
     if (this.IsMakeNewModel==true){
-      /*
-      Widget parent = context.ancestorWidgetOfExactType(FactorList);
-      if ((parent as FactorList).IsCreateNewFactor){
-        MakeWidgetList4New();  
-      }
-      */
-      
+
+      //新建模型情况：
       MakeWidgetList4New();  
 
     }
     else{
+      //当前编辑的模型
       MakeWidgetList();  
     }
     
@@ -163,6 +163,7 @@ class FactorList1 extends StatelessWidget{
     for(var f in factorList){
 
       var factorDesc = WebAPIHelper.instance.GetFactorInfoByName(f.FactorName).FactorDesc;
+      var direction = f.FactorWeight>=0? "越大越好":"越小越好";
 
       m_List.add(
         new Row(
@@ -176,7 +177,7 @@ class FactorList1 extends StatelessWidget{
                 
                 new Expanded(
                   flex:1,
-                  child: new Text('越大越好',
+                  child: new Text(direction,
                         textAlign: TextAlign.center),
                 ),
 
@@ -191,13 +192,12 @@ class FactorList1 extends StatelessWidget{
                   flex:1,
                   child:  new IconButton(
                           onPressed: () {
-                            //print('$factorDesc');
-                            if (this.IsMakeNewModel){
-                              //删除 factorDesc
-                              DeleteFactor(factorDesc);
-                              //(parent.() as _FactorListState).RefreshUI();
-                              m_parent.RefreshUI();
-                            }
+                          
+                            //删除 factorDesc
+                            DeleteFactor(factorDesc);
+                            //(parent.() as _FactorListState).RefreshUI();
+                            m_parent.RefreshUI();
+
                           },
                           icon: new Icon(Icons.delete),
                           tooltip: '删除',
@@ -216,6 +216,9 @@ class FactorList1 extends StatelessWidget{
   void DeleteFactor(String factorDesc){
     if (this.IsMakeNewModel){
       SharedData.instance.m_ModelInfoEx4New.FactorList.removeWhere((item) => item.FactorDesc == factorDesc);
+    }
+    else{
+      this.m_ModeInfo.FactorList.retainWhere((item) => item.FactorDesc == factorDesc);
     }
   }
 

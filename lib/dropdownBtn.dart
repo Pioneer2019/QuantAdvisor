@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:uitest2/entityclass.dart';
 
 import 'sharedata.dart';
 
 class LearnDropdownButton extends StatefulWidget{
 
-  String m_CurrentStockRange = "";
+  //当前编辑的模型信息
+  ModelInfoEx m_ModelInfo = new ModelInfoEx();
 
   //true: 新建模型; false: 修改模型
   bool m_IsMakeNewModel = true;
 
-  LearnDropdownButton(String stockRange,bool isMakeNewModel){
-      m_CurrentStockRange = stockRange;
+  LearnDropdownButton(ModelInfoEx modelInfo,bool isMakeNewModel){
+      m_ModelInfo = modelInfo;
       m_IsMakeNewModel = isMakeNewModel;
 
-      if (m_CurrentStockRange == null){
-        m_CurrentStockRange = "";
-      }
   }
 
   @override
@@ -97,9 +96,12 @@ class _LearnDropdownButton extends State<LearnDropdownButton>{
   @override
   Widget build(BuildContext context) {
     
-    print(widget.m_CurrentStockRange);
-    if (m_value == ''){
-      m_value = widget.m_CurrentStockRange;  
+    print(widget.m_ModelInfo.StockRange);
+    if (widget.m_IsMakeNewModel){
+      m_value = SharedData.instance.m_ModelInfoEx4New.StockRange;
+    }
+    else{
+      m_value = widget.m_ModelInfo.StockRange;  
     }
 
     return new DropdownButton(
@@ -110,6 +112,9 @@ class _LearnDropdownButton extends State<LearnDropdownButton>{
 
                 if (widget.m_IsMakeNewModel){
                   SharedData.instance.m_ModelInfoEx4New.StockRange = T;
+                }
+                else{
+                  widget.m_ModelInfo.StockRange = T;
                 }
 
                 setState(() {

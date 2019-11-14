@@ -202,11 +202,12 @@ class WebAPIHelper {
         m.ModelDesc = data['ModelDesc'][0];
         m.FactorList = new List();
         
-        for(var f in [data['FactorList'][0]]){
+        for(var f in data['FactorList']){
              var fc = new FactorInModel();
              fc.FactorWeight = f["FactorWeight"];
              fc.FactorName = f["FactorName"];
-             fc.FactorDesc = f["FactorDesc"];
+             fc.FactorFunc = f["FactorFunc"];
+             fc.FactorDesc = GetFactorInfoByName(fc.FactorName).FactorDesc;
 
              m.FactorList.add(fc);
         }
@@ -269,6 +270,18 @@ class WebAPIHelper {
     return fc;
   }
 
+  //用 name 查找 因子 factor
+  FactorInfo GetFactorInfoByDesc(String desc){
+    for(var f in m_Cache_FactorList){
+      if (f.FactorDesc == desc){
+        return f;
+      }
+    }
+    var fc = new FactorInfo();
+    fc.FactorDesc="";
+    return fc;
+  }
+
   //得到模型信息
   Future<String> TestModel(String name, String begin, String end) async {
     var httpClient = new HttpClient();
@@ -306,7 +319,7 @@ class WebAPIHelper {
   }
 
   //保存模型信息
-  SaveModelInfo(ModelInfoEx4New modelInfo) async {
+  SaveModelInfo(ModelInfoEx4Save modelInfo) async {
     
     String result='';
 
