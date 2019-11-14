@@ -109,7 +109,7 @@ class _BackTestState extends State<BackTest>
                           });
                         },
                       child: const Text(
-                        '开始回测',
+                        '回测',
                         style: TextStyle(fontSize: 13)
                       ),
                         ), 
@@ -181,10 +181,10 @@ class _BackTestTabControlState extends State<BackTestTabControl> with SingleTick
 }
 
 class BacktestValue {
-  final int seq;
+  final DateTime date;
   final double value;
 
-  BacktestValue(this.seq, this.value);
+  BacktestValue(this.date, this.value);
 }
 
 class TabBarView_BackTest extends StatelessWidget{
@@ -195,7 +195,8 @@ class TabBarView_BackTest extends StatelessWidget{
   double model_mdd;
   double model_sharpe;
   double avg_turnover;
-  List<charts.Series<BacktestValue, int>> seriesList;
+  List<charts.Series<BacktestValue, DateTime>> seriesList;
+  List<TableRow> transRows;
 
   TabBarView_BackTest(TabController tabControl, String result)
   {
@@ -211,22 +212,73 @@ class TabBarView_BackTest extends StatelessWidget{
       summary = "年化收益率=${formatter.format(model_annual_ret)}%,最大回撤=${formatter.format(model_mdd)}%\n夏普比=${formatter.format(model_sharpe)},平均调仓换手率=${formatter.format(avg_turnover)}%";
       var model_daily_rtn = data['model_daily_rtn'];
       print(model_daily_rtn['Value'].length);
-      List<BacktestValue> seriesData = [];
+      List<BacktestValue> modelValue = [];
+      List<BacktestValue> hs300Value = [];
+      List<BacktestValue> zz500Value = [];
       for (var i=0; i< model_daily_rtn['Value'].length; i++) {
-        seriesData.add(new BacktestValue(i, model_daily_rtn['Value'][i]));
+        //print(DateTime.parse(model_daily_rtn['Date'][i].toString()));
+        modelValue.add(new BacktestValue(DateTime.parse(model_daily_rtn['Date'][i].toString()), model_daily_rtn['Value'][i].toDouble()));
+        hs300Value.add(new BacktestValue(DateTime.parse(model_daily_rtn['Date'][i].toString()), model_daily_rtn['HS300'][i].toDouble()));
+        zz500Value.add(new BacktestValue(DateTime.parse(model_daily_rtn['Date'][i].toString()), model_daily_rtn['ZZ500'][i].toDouble()));
       }
       seriesList = [
-        new charts.Series<BacktestValue, int>(
-        id: 'Value',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (BacktestValue value, _) => value.seq,
-        measureFn: (BacktestValue value, _) => value.value,
-        data: seriesData,
-      )
+        new charts.Series<BacktestValue, DateTime>(
+          id: '策略净值',
+          colorFn: (_, __) => charts.MaterialPalette.deepOrange.shadeDefault,
+          domainFn: (BacktestValue value, _) => value.date,
+          measureFn: (BacktestValue value, _) => value.value,
+          data: modelValue,
+        ),
+        new charts.Series<BacktestValue, DateTime>(
+          id: '沪深300',
+          colorFn: (_, __) => charts.MaterialPalette.gray.shadeDefault,
+          domainFn: (BacktestValue value, _) => value.date,
+          measureFn: (BacktestValue value, _) => value.value,
+          data: hs300Value,
+        ),
+        new charts.Series<BacktestValue, DateTime>(
+          id: '中证500',
+          colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+          domainFn: (BacktestValue value, _) => value.date,
+          measureFn: (BacktestValue value, _) => value.value,
+          data: zz500Value,
+        )
       ];
+      transRows = [];
+      transRows.add(
+        new TableRow(
+          children: <Widget>[
+            new TableCell(child:Text("Date")),
+            new TableCell(child:Text("Symbol")),
+            new TableCell(child:Text("Weight")),
+            new TableCell(child:Text("Return")),
+          ]
+        )
+      );
+
+      var sch_stock_data_list = data['sch_stock_data_list'];
+      for (var i=0; i<sch_stock_data_list.length;i++) {
+        var tradeDate = sch_stock_data_list[i]['Date'];
+        var symbol = sch_stock_data_list[i]['Symbol'];
+        var weight = sch_stock_data_list[i]['Weight'];
+        var ret = sch_stock_data_list[i]['Return'];
+        for (var j=0; j<symbol.length; j++) {
+          transRows.add(
+            new TableRow(
+              children: <Widget>[
+                new TableCell(child:Text(tradeDate[j].toString())),
+                new TableCell(child:Text(symbol[j].toString())),
+                new TableCell(child:Text(weight[j].toString())),
+                new TableCell(child:Text(ret[j].toString())),
+              ]
+            )
+          );
+        }
+      }
     } else {
       summary = "";
       seriesList = [];
+      transRows = [];
     }
   }
 
@@ -249,23 +301,31 @@ class TabBarView_BackTest extends StatelessWidget{
         children: <Widget>[
               SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     new Text(summary),
                     new SizedBox(
-                      width: deviceSize.width*0.85,
+                      width: deviceSize.width*0.88,
                       height: 200,
-                      child:new charts.LineChart(seriesList),
+                      child:new charts.TimeSeriesChart(
+                        seriesList,
+                        behaviors: [
+                          new charts.SlidingViewport(),
+                          new charts.PanAndZoomBehavior(),
+                          new charts.SeriesLegend()
+                        ],
+                      ),
                     )
                   ],
                 )
               ),
 
-             Container(
-                color: Color(0xffffffff),
-                alignment: Alignment.topCenter,
-                padding: EdgeInsets.all(0),
-                child: new Text(""),
+             SingleChildScrollView(
+               padding: EdgeInsets.all(5),
+                child: new Table(
+                  border: TableBorder.all(),
+                  children: transRows,
+                ),
               ),
 
       ],)
