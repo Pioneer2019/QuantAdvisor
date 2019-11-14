@@ -114,6 +114,10 @@ class ModelInfoEx4NewJson{
       CondList.add(c);
     }
 
+    if (CondList.length == 0){
+      CondList = null;
+    }
+
   }
 
   Map<String,dynamic> toJson() =>

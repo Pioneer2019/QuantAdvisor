@@ -160,7 +160,7 @@ class FactorFilterList1 extends StatelessWidget
                       children:<Widget>[
                         
                         new Expanded(
-                          child: new Text('大于等于'),
+                          child: new Text('下限'),
                         ),
 
                         new Expanded(
@@ -177,7 +177,7 @@ class FactorFilterList1 extends StatelessWidget
                         ),
 
                         new Expanded(
-                          child: new Text('小于等于'),
+                          child: new Text('上限'),
                         ),
 
                         new Expanded(
@@ -211,7 +211,7 @@ class FactorFilterList1 extends StatelessWidget
                               }
 
                               m_parent.RefreshUI();
-                              
+
                             },
                             icon: new Icon(Icons.delete),
                             tooltip: '删除',

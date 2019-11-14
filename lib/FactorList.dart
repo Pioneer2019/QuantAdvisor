@@ -218,7 +218,7 @@ class FactorList1 extends StatelessWidget{
       SharedData.instance.m_ModelInfoEx4New.FactorList.removeWhere((item) => item.FactorDesc == factorDesc);
     }
     else{
-      this.m_ModeInfo.FactorList.retainWhere((item) => item.FactorDesc == factorDesc);
+      this.m_ModeInfo.FactorList.removeWhere((item) => item.FactorDesc == factorDesc);
     }
   }
 
