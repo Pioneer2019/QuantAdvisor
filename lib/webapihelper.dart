@@ -213,8 +213,9 @@ class WebAPIHelper {
         }
 
         if (data['IndustryList'].length > 0){
-          for(var i in [data['IndustryList'][0]]){
-              m.IndustryList.add(i);
+          var str = data['IndustryList'][0].toString();
+          for(var ids in str.split(',')){
+              m.IndustryList.add(ids);
           }
         }
         //m.IndustryList = data['IndustryList'][0];
@@ -229,7 +230,7 @@ class WebAPIHelper {
         
         m.CondList = new List();
         if (data['CondList'].length>0){
-          for(var c in [data['CondList'][0]]){
+          for(var c in data['CondList']){
               Cond cond = new Cond();
               cond.CondName = c['CondName'];
               cond.CondMin = c['CondMin'];

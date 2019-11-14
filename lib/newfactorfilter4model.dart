@@ -69,8 +69,25 @@ class _NewFactorFilter4ModelState extends State<NewFactorFilter4Model>{
               BottomNavigationBarItem(icon: Icon(Icons.cancel), title: Text('返回')),
             ],
             onTap:  (index) {
-              //保存因子
-              Navigator.pop(context,true);
+              if (index == 0){
+                //保存因子
+                Navigator.pop(context,true);
+              }
+              else if (index == 1){
+                //删除新加的因子筛选条件
+                if (widget.m_IsMakeNewModel){
+                  var cond = SharedData.instance.m_ModelInfoEx4New.CondList[SharedData.instance.m_ModelInfoEx4New.CondList.length-1];
+                  SharedData.instance.m_ModelInfoEx4New.CondList.remove(cond);
+                }
+                else{
+                  var cond = widget.m_ModeInfo.CondList[widget.m_ModeInfo.CondList.length-1];
+                  widget.m_ModeInfo.CondList.remove(cond);
+                }
+
+                //返回
+                Navigator.pop(context,true);
+              }
+              
             },
           ),
 

@@ -120,13 +120,8 @@ class StrategyListState extends State<StrategyList>
                       new IconButton(
                         
                         //删除当前模型
-                        onPressed:() async {
-                         bool br = await WebAPIHelper.instance.RemoveModelInfo(modelName);
-
-                         if (br){
-                           GetModelListAsync();
-                         }
-
+                        onPressed:() {
+                         this._deleteCurrentModel(modelName);
                         },
 
                         icon: new Icon(Icons.delete_forever),
@@ -193,5 +188,43 @@ class StrategyListState extends State<StrategyList>
       );
         
   }
+
+  //删除当前模型
+  _deleteCurrentModel(String modelName) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('您是否确认删除当前模型？'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('否',
+              style: new TextStyle(fontSize: 18),),
+              onPressed: () {
+                Navigator.of(context).pop(context);
+              },
+            ),
+
+            FlatButton(
+              child: Text('是',
+              style: new TextStyle(fontSize: 18),),
+              onPressed: () async {
+                Navigator.of(context).pop(context);
+                
+                bool br = await WebAPIHelper.instance.RemoveModelInfo(modelName);
+
+                if (br){
+                  GetModelListAsync();
+                }
+                
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
 

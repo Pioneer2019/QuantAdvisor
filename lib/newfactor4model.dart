@@ -72,8 +72,23 @@ class _NewFactor4ModelState extends State<NewFactor4Model>{
               BottomNavigationBarItem(icon: Icon(Icons.cancel), title: Text('返回')),
             ],
             onTap:  (index) {
-              //保存因子
-              Navigator.pop(context,true);
+              if (index == 0){
+                //保存因子
+                Navigator.pop(context,true);
+              }
+              else{
+                //删除新加的因子
+                if (widget.m_IsMakeNewModel){
+                  var fc = SharedData.instance.m_ModelInfoEx4New.FactorList[SharedData.instance.m_ModelInfoEx4New.FactorList.length-1];
+                  SharedData.instance.m_ModelInfoEx4New.FactorList.remove(fc);
+                }
+                else{
+                  var fc = widget.m_ModeInfo.FactorList[widget.m_ModeInfo.FactorList.length-1];
+                  widget.m_ModeInfo.FactorList.remove(fc);
+                }
+                //保存因子
+                Navigator.pop(context,true);
+              }
             },
           ),
 

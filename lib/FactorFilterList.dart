@@ -24,6 +24,12 @@ class FactorFilterList extends StatefulWidget
 class _FactorFilterListState extends State<FactorFilterList>
 {
   
+  RefreshUI(){
+    setState(() {
+      
+    });
+  }
+
   @override
   Widget build(BuildContext context)
   {
@@ -85,7 +91,7 @@ class _FactorFilterListState extends State<FactorFilterList>
         //new Divider(),
 
         new Flexible(
-            child: new FactorFilterList1(widget.m_ModeInfo,widget.IsMakeNewModel),
+            child: new FactorFilterList1(widget.m_ModeInfo,widget.IsMakeNewModel, this),
         )
         
 
@@ -102,11 +108,14 @@ class FactorFilterList1 extends StatelessWidget
   //true: 新建模型; false: 修改模型
   bool IsMakeNewModel = true;
 
+  _FactorFilterListState m_parent;
+
   List<Widget> m_List = new List();
 
-  FactorFilterList1(ModelInfoEx modelInfo, bool isMakeNewModel){
+  FactorFilterList1(ModelInfoEx modelInfo, bool isMakeNewModel, _FactorFilterListState parent){
     this.m_ModelInfo = modelInfo;
     this.IsMakeNewModel = isMakeNewModel;
+    m_parent = parent;
   }
 
   //生成 m_List 中的widget
@@ -128,7 +137,7 @@ class FactorFilterList1 extends StatelessWidget
       }
     }
     
-
+    //生成 m_List<widget>控件数组的子函数
     void subMakeWidgetList(List<Cond> condList){
 
       for(var f in condList){
@@ -191,16 +200,18 @@ class FactorFilterList1 extends StatelessWidget
                     flex:1,
                     child:  new IconButton(
                             onPressed: () {
+                              
+                              var factorName = WebAPIHelper.instance.GetFactorInfoByDesc(factorDesc).FactorName;
                               //删除当前 cond
                               if (this.IsMakeNewModel){
-
+                                SharedData.instance.m_ModelInfoEx4New.CondList.removeWhere((item) => item.CondName == factorName);
                               }
                               else{
-                                var factorName = WebAPIHelper.instance.GetFactorInfoByDesc(factorDesc);
                                 this.m_ModelInfo.CondList.removeWhere((item) => item.CondName == factorName);
                               }
-                              
 
+                              m_parent.RefreshUI();
+                              
                             },
                             icon: new Icon(Icons.delete),
                             tooltip: '删除',
