@@ -21,6 +21,7 @@ class _BackTestState extends State<BackTest>
   String m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 183)));
   String m_endDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String m_Result = "";
+  List<bool> isSelected = [true, false, false, false]; //1年，3年，5年，10年
 
    @override
   Widget build(BuildContext context)
@@ -38,62 +39,34 @@ class _BackTestState extends State<BackTest>
                 new Expanded(
                   flex:2,
                   child: 
-                  new GestureDetector(
-                         child: Text(
-                            '开始日期:$m_startDate',
-                            style: TextStyle(fontSize: 13),),
-                    
-                    onTap: () {
-                        // 调用函数打开
-                        showDatePicker(
-                            context: context,
-                            initialDate: DateTime.parse(m_startDate),
-                            firstDate: new DateTime(2009,1,1),
-                            lastDate: new DateTime.now(),
-                        ).then((DateTime val) {
-                            print(val);   // 2018-07-12 00:00:00.000
-
-                            if (val!=null) {
-                              setState(() {
-                               m_startDate = DateFormat('yyyy-MM-dd').format(val);
-                              });
+                    ToggleButtons(
+                      children: <Widget>[
+                        Text("半年"),
+                        Text("1年"),
+                        Text("3年"),
+                        Text("5年"),
+                      ],
+                      onPressed: (int index) {
+                        setState(() {
+                          for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
+                            if (buttonIndex == index) {
+                              isSelected[buttonIndex] = true;
+                              if (index == 0)
+                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 183)));
+                              else if (index == 1)
+                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 365)));
+                              else if (index == 2)
+                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 365*3)));
+                              else if (index == 3)
+                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 365*5)));
+                            } else {
+                              isSelected[buttonIndex] = false;
                             }
-                            
-                        }).catchError((err) {
-                            print(err);
+                          }
                         });
-                    },
-                  ),
-                ),
-                
-              new Expanded(
-                  flex:2,
-                  child: 
-                  new GestureDetector(
-                    child: new Text(
-                          '结束日期:$m_endDate'
-                        ),
-                    onTap: () {
-                        // 调用函数打开
-                        showDatePicker(
-                            context: context,
-                            initialDate: DateTime.parse(m_endDate),
-                            firstDate: new DateTime(2009,1,1),
-                            lastDate: new DateTime.now(),
-                        ).then((DateTime val) {
-                            print(val);   // 2018-07-12 00:00:00.000
-
-                            if (val!=null) {
-                              setState(() {
-                                m_endDate = DateFormat('yyyy-MM-dd').format(val);
-                              });
-                            }
-                            
-                        }).catchError((err) {
-                            print(err);
-                        });
-                    },
-                  ),
+                      },
+                      isSelected: isSelected,
+                    ),
                 ),
                 
                 new Expanded(
@@ -223,15 +196,8 @@ class TabBarView_BackTest extends StatelessWidget{
       }
       seriesList = [
         new charts.Series<BacktestValue, DateTime>(
-          id: '策略净值',
-          colorFn: (_, __) => charts.MaterialPalette.deepOrange.shadeDefault,
-          domainFn: (BacktestValue value, _) => value.date,
-          measureFn: (BacktestValue value, _) => value.value,
-          data: modelValue,
-        ),
-        new charts.Series<BacktestValue, DateTime>(
           id: '沪深300',
-          colorFn: (_, __) => charts.MaterialPalette.gray.shadeDefault,
+          colorFn: (_, __) => charts.MaterialPalette.lime.shadeDefault,
           domainFn: (BacktestValue value, _) => value.date,
           measureFn: (BacktestValue value, _) => value.value,
           data: hs300Value,
@@ -242,34 +208,56 @@ class TabBarView_BackTest extends StatelessWidget{
           domainFn: (BacktestValue value, _) => value.date,
           measureFn: (BacktestValue value, _) => value.value,
           data: zz500Value,
-        )
+        ),
+        new charts.Series<BacktestValue, DateTime>(
+          id: '策略净值',
+          colorFn: (_, __) => charts.MaterialPalette.deepOrange.shadeDefault,
+          domainFn: (BacktestValue value, _) => value.date,
+          measureFn: (BacktestValue value, _) => value.value,
+          data: modelValue,
+        ),
       ];
       transRows = [];
       transRows.add(
         new TableRow(
           children: <Widget>[
-            new TableCell(child:Text("Date")),
-            new TableCell(child:Text("Symbol")),
-            new TableCell(child:Text("Weight")),
-            new TableCell(child:Text("Return")),
+            new TableCell(child:Text("调仓日")),
+            new TableCell(child:Text("代码")),
+            new TableCell(child:Text("简称")),
+            new TableCell(child:Text("行业")),
+            new TableCell(child:Text("权重")),
+            new TableCell(child:Text("收益")),
           ]
         )
       );
 
       var sch_stock_data_list = data['sch_stock_data_list'];
-      for (var i=0; i<sch_stock_data_list.length;i++) {
+      for (var i=sch_stock_data_list.length-1; i>=0;i--) {
         var tradeDate = sch_stock_data_list[i]['Date'];
         var symbol = sch_stock_data_list[i]['Symbol'];
+        var name = sch_stock_data_list[i]['Name'];
+        var industry = sch_stock_data_list[i]['Industry'];
         var weight = sch_stock_data_list[i]['Weight'];
         var ret = sch_stock_data_list[i]['Return'];
+        transRows.add(new TableRow(
+          children: <Widget>[
+            new TableCell(child:Text(tradeDate[1].toString(),style: TextStyle(fontSize: 11.0))),
+            new TableCell(child:Text("")),
+            new TableCell(child:Text("")),
+            new TableCell(child:Text("")),
+            new TableCell(child:Text("")),
+            new TableCell(child:Text("")),
+          ]));
         for (var j=0; j<symbol.length; j++) {
           transRows.add(
             new TableRow(
               children: <Widget>[
-                new TableCell(child:Text(tradeDate[j].toString())),
-                new TableCell(child:Text(symbol[j].toString())),
-                new TableCell(child:Text(weight[j].toString())),
-                new TableCell(child:Text(ret[j].toString())),
+                new TableCell(child:Text(tradeDate[j].toString(),style: TextStyle(fontSize: 11.0))),
+                new TableCell(child:Text(NumberFormat("000000").format(symbol[j]),style: TextStyle(fontSize: 11.0))),
+                new TableCell(child:Text(name[j],style: TextStyle(fontSize: 11.0))),
+                new TableCell(child:Text(industry[j],style: TextStyle(fontSize: 11.0))),
+                new TableCell(child:Text(NumberFormat("##.##%").format(weight[j]),style: TextStyle(fontSize: 11.0), textAlign: TextAlign.right,)),
+                new TableCell(child:Text(NumberFormat("##.##%").format(ret[j]),style: TextStyle(fontSize: 11.0), textAlign: TextAlign.right)),
               ]
             )
           );
@@ -306,7 +294,7 @@ class TabBarView_BackTest extends StatelessWidget{
                     new Text(summary),
                     new SizedBox(
                       width: deviceSize.width*0.88,
-                      height: 200,
+                      height: deviceSize.height*0.4,
                       child:new charts.TimeSeriesChart(
                         seriesList,
                         behaviors: [
