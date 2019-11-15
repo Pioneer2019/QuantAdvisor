@@ -181,3 +181,10 @@ class Cond{
   };
 
 }
+
+class DialogResult{
+  bool yes = false;
+  bool no = false;
+  bool ok = false;
+  bool cancel = false;
+}

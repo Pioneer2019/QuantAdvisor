@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+
 import 'package:uitest2/entityclass.dart';
 import 'package:uitest2/sharedata.dart';
+
 import 'newStrategy.dart';
 import 'StrategyInfoPage.dart';
 
@@ -59,11 +62,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icon(Icons.add_to_home_screen), 
                 title: Text('新建模型'),
                 ),
+              BottomNavigationBarItem(icon: Icon(Icons.refresh), title: Text('刷新')),   
               BottomNavigationBarItem(icon: Icon(Icons.exit_to_app), title: Text('退出')),
             ],
             onTap:  (index) async {
               if (index == 0)
               {
+                
+                //清空新模型成员变量值
+                SharedData.instance.ClearModelInfoEx4New(SharedData.instance.m_ModelInfoEx4New);
+
                 bool br = await Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => new newStrategyPage())
@@ -72,6 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 if (br){
                   SharedData.instance.m_Mainform_StrategyList.GetModelListAsync();
                 }
+              }
+              else if (index ==1){
+                RefreshUI();
+              }
+              else if (index ==2){
+                await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
               }
             },
           ),
@@ -129,11 +143,15 @@ class StrategyListState extends State<StrategyList>
                           ),
 
                       new IconButton(
-                        onPressed:(){
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(builder: (context) => new StrategyInfoPage(modelName))
-                            );
+                        onPressed:() async {
+                          var br = await Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(builder: (context) => new StrategyInfoPage(modelName))
+                                  );
+                          if (br == null)  {br=false;}
+                          if (br){
+                            SharedData.instance.m_Mainform_StrategyList.GetModelListAsync();
+                          }
                         },
 
                         icon: new Icon(Icons.keyboard_arrow_right),
@@ -144,11 +162,15 @@ class StrategyListState extends State<StrategyList>
                     ]),
                 
                 ),
-                onTap: (){
-                  Navigator.push(
+                onTap: () async {
+                  var br = await Navigator.push(
                             context,
                             new MaterialPageRoute(builder: (context) => new StrategyInfoPage(modelName))
                             );
+                  if (br == null)  {br=false;}
+                  if (br){
+                    SharedData.instance.m_Mainform_StrategyList.GetModelListAsync();
+                  }                            
                 },
                 ),
               ));

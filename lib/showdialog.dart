@@ -80,4 +80,83 @@ class Dialog4Save {
     );
   }
 
+  //模型另存为XXX
+  bool SaveAsModel(ModelInfoEx4Save modelInfo,BuildContext context,Function saveAction){
+    DialogResult dr = new DialogResult();
+
+    modelInfo.ModelName += '_Copy';
+
+    ShowDialog_InputNewModelName(context, modelInfo, dr,saveAction);
+
+    if (dr.ok){
+      return true;
+    }
+    else{
+      return false;
+    }
+    
+  }
+
+  //打开对话框，输入新的模型名
+  ShowDialog_InputNewModelName(BuildContext context, ModelInfoEx4Save modelInfo,DialogResult dr,Function saveAction) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        String prompt = '模型名称:';
+        return AlertDialog(
+          title: Text('模型另存为'),
+          
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(prompt),
+
+                new TextField(
+                        
+                        decoration: InputDecoration(),
+                        onChanged: (text) {
+                          //value = text;
+                          
+                          modelInfo.ModelName = text.trim();
+                          
+                        },
+
+                        controller: TextEditingController.fromValue(TextEditingValue
+                          (
+                            text: '${modelInfo.ModelName}',  //判断keyword是否为空
+                          ), 
+                          
+                        ),
+                  ),
+
+              ],
+            ),
+          ),
+        
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Cancel',
+              style: new TextStyle(fontSize: 18),),
+              onPressed: () async {
+                dr.cancel = true;
+                Navigator.of(context).pop(context);
+              },
+            ),
+
+            FlatButton(
+              child: Text('OK',
+              style: new TextStyle(fontSize: 18),),
+              onPressed: () async {
+                dr.ok = true;
+                Navigator.of(context).pop(context);
+                saveAction(modelInfo);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

@@ -38,7 +38,15 @@ class IndustryListState extends State<IndustryList> {
     }
 
     if (widget.m_IsMakeNewModel){
-      
+      for(int i=0;i<m_isChecks.length;i++){
+        var industryName = WebAPIHelper.instance.m_Cache_IndustryList[i];
+        if (SharedData.instance.m_ModelInfoEx4New.IndustryList.contains(industryName) == true){
+          m_isChecks[i]=true;
+        }
+        else{
+          m_isChecks[i]=false;
+        }
+      }
     }
     else{
       for(int i=0;i<m_isChecks.length;i++){
@@ -129,7 +137,7 @@ class IndustryListState extends State<IndustryList> {
     InitialList();
 
     return new SizedBox(
-      height: 238,  
+      height: 218,  
       child : new SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: new Column(

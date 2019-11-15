@@ -63,11 +63,26 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
     super.initState();
   }
 
+  void SaveModelInfoAction(ModelInfoEx4Save modelInfo4Save){
+    //保存模型信息
+    WebAPIHelper.instance.SaveModelInfo(modelInfo4Save);
+
+    Navigator.pop(context,true);
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    //判断缓存的modelInfo 是否和当前的modelInfo 一致
+    //https://stackoverflow.com/questions/55208620/flutter-textfield-focus-rebuilds-widget-if-keyboardtype-changes
+    if (WebAPIHelper.instance.m_Cache_ModelInfoEx.ModelName != this.widget.m_CurrentModel.ModelName && 
+        this.widget.m_ModelName == WebAPIHelper.instance.m_Cache_ModelInfoEx.ModelName){
+      this.widget.m_CurrentModel = WebAPIHelper.instance.m_Cache_ModelInfoEx;
+    }
+
     return MaterialApp(
       home: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
           appBar: AppBar(
             title: Text('策略详情'),
             bottom: TabBar(
@@ -89,13 +104,14 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
         bottomNavigationBar: BottomNavigationBar( // 底部导航
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(icon: Icon(Icons.save), title: Text('保存')),
+              BottomNavigationBarItem(icon: Icon(Icons.content_copy), title: Text('另存为')),
               BottomNavigationBarItem(icon: Icon(Icons.hotel), title: Text('返回')),
             ],
 
             onTap:  (index) {
 
               if (index == 0){
-
+                //保存当前编辑的模型
                 ModelInfoEx4Save modelInfo4Save = SharedData.instance.ConvertModelInfoEx4Save(widget.m_CurrentModel);
 
                 var br = Dialog4Save.instance.CheckInputValue4Save(
@@ -111,6 +127,13 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
                 Navigator.pop(context,true);
               }
               else if (index == 1){
+                //另存为另一个模型，复制一个模型，然后弹出一个对话框，输入新的模型名称
+                ModelInfoEx4Save modelInfo4Save = SharedData.instance.ConvertModelInfoEx4Save(widget.m_CurrentModel);
+
+                Dialog4Save.instance.SaveAsModel(modelInfo4Save,context,SaveModelInfoAction);
+                
+              }
+              else if (index == 2){
                 //返回到调用页面
                 Navigator.pop(context,false);
               }

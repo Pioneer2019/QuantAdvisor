@@ -18,10 +18,9 @@ class newStrategyPage extends StatefulWidget {
 
   newStrategyPage(){
     
-    //清空新模型成员变量值
-    SharedData.instance.ClearModelInfoEx4New(SharedData.instance.m_ModelInfoEx4New);
-
-    SharedData.instance.ClearNewFactorData();
+    ////清空新模型成员变量值
+    //SharedData.instance.ClearModelInfoEx4New(SharedData.instance.m_ModelInfoEx4New);
+    //SharedData.instance.ClearNewFactorData();
   }
 
   @override
