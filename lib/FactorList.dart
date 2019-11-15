@@ -183,7 +183,7 @@ class FactorList1 extends StatelessWidget{
 
                 new Expanded(
                   flex:1,
-                  child: new Text(f.FactorWeight.toString(),
+                  child: new Text(f.FactorWeight.abs().toString(),
                         textAlign: TextAlign.center),
 
                 ),
