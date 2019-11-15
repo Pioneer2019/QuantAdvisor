@@ -82,7 +82,7 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
 
     return MaterialApp(
       home: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
           appBar: AppBar(
             title: Text('策略详情'),
             bottom: TabBar(

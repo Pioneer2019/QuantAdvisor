@@ -68,6 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap:  (index) async {
               if (index == 0)
               {
+                
+                //清空新模型成员变量值
+                SharedData.instance.ClearModelInfoEx4New(SharedData.instance.m_ModelInfoEx4New);
+
                 bool br = await Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => new newStrategyPage())
