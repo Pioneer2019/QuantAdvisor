@@ -129,7 +129,7 @@ class IndustryListState extends State<IndustryList> {
     InitialList();
 
     return new SizedBox(
-      height: 238,  
+      height: 218,  
       child : new SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: new Column(

@@ -72,6 +72,14 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
+
+    //判断缓存的modelInfo 是否和当前的modelInfo 一致
+    //https://stackoverflow.com/questions/55208620/flutter-textfield-focus-rebuilds-widget-if-keyboardtype-changes
+    if (WebAPIHelper.instance.m_Cache_ModelInfoEx.ModelName != this.widget.m_CurrentModel.ModelName && 
+        this.widget.m_ModelName == WebAPIHelper.instance.m_Cache_ModelInfoEx.ModelName){
+      this.widget.m_CurrentModel = WebAPIHelper.instance.m_Cache_ModelInfoEx;
+    }
+
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,

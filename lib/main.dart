@@ -62,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icon(Icons.add_to_home_screen), 
                 title: Text('新建模型'),
                 ),
+              BottomNavigationBarItem(icon: Icon(Icons.refresh), title: Text('刷新')),   
               BottomNavigationBarItem(icon: Icon(Icons.exit_to_app), title: Text('退出')),
             ],
             onTap:  (index) async {
@@ -77,6 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               }
               else if (index ==1){
+                RefreshUI();
+              }
+              else if (index ==2){
                 await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
               }
             },

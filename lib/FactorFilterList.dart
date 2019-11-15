@@ -54,12 +54,12 @@ class _FactorFilterListState extends State<FactorFilterList>
                     child: Row(
                       children:<Widget>[
 
-                        new Text('操作',
+                        new Text('操作 ',
                           textAlign: TextAlign.left
                           ),
 
-                        new IconButton(
-                          onPressed: () async {
+                        new GestureDetector(
+                          onTap: () async {
                             if (widget.IsMakeNewModel){
                               SharedData.instance.AddNewCondition4NewModel();
                             }
@@ -79,8 +79,7 @@ class _FactorFilterListState extends State<FactorFilterList>
                                 });
                               }
                           },
-                          icon: new Icon(Icons.add_box),
-                          tooltip: '添加',
+                          child: new Icon(Icons.add_box),
                         ),  
 
                       ]
@@ -88,7 +87,7 @@ class _FactorFilterListState extends State<FactorFilterList>
                   ),
             ],
           ),
-        //new Divider(),
+        new Divider(),
 
         new Flexible(
             child: new FactorFilterList1(widget.m_ModeInfo,widget.IsMakeNewModel, this),
@@ -160,37 +159,24 @@ class FactorFilterList1 extends StatelessWidget
                       children:<Widget>[
                         
                         new Expanded(
-                          child: new Text('下限'),
+                          child: new Text('下限:'),
                         ),
 
                         new Expanded(
-                          child: new TextField(
-                            decoration: InputDecoration(),
-
-                            controller: TextEditingController.fromValue(TextEditingValue
-                                (
-                                  text: '${f.CondMin}',  //判断keyword是否为空
-                              ), 
-                            ),
-
-                          ),
-                        ),
-
-                        new Expanded(
-                          child: new Text('上限'),
-                        ),
-
-                        new Expanded(
-                          child: new TextField(
-                            decoration: InputDecoration(),
-
-                            controller: TextEditingController.fromValue(TextEditingValue
-                                (
-                                  text: '${f.CondMax}',  //判断keyword是否为空
-                              ), 
+                          child: new Text(f.CondMin.toString(),
+                            style: new TextStyle(fontSize: 16),
                             ),
                           ),
+
+                        new Expanded(
+                          child: new Text('上限:'),
                         ),
+
+                        new Expanded(
+                          child: new Text(f.CondMax.toString(),
+                            style: new TextStyle(fontSize: 16),  //判断keyword是否为空
+                              ), 
+                          ),
 
                       ] 
                     ),
