@@ -50,23 +50,13 @@ class IndustryListState extends State<IndustryList> {
     }
 
     if (widget.m_IsMakeNewModel){
-      /*
-      for(int i=0;i<m_isChecks.length;i++){
-        var industryName = WebAPIHelper.instance.m_Cache_IndustryList[i];
-        if (SharedData.instance.m_ModelInfoEx4New.IndustryList.contains(industryName) == true){
-          m_isChecks[i]=true;
-        }
-        else{
-          m_isChecks[i]=false;
-        }
+      for(var idsName in SharedData.instance.m_ModelInfoEx4New.IndustryList){
+        m_data.add(idsName);
       }
-      */
     }
     else{
       for(var idsName in widget.m_ModelInfo.IndustryList){
-        
-          m_data.add(idsName);
-        
+        m_data.add(idsName);
       }
     }
     

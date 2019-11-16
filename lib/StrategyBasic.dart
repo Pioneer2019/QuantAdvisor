@@ -29,14 +29,13 @@ class StrategyBasic extends StatelessWidget
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: <Widget>[
                 new Expanded(
-                  flex:1,
+                  flex:2,
                   child: new Text('模型名称:'),
                 ),
                 
                 new Expanded(
-                  flex:5,
+                  flex:9,
                   child: new TextField(
-                        
                         decoration: InputDecoration(),
                         onChanged: (text) {
                           //value = text;
@@ -65,12 +64,12 @@ class StrategyBasic extends StatelessWidget
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: <Widget>[
                 new Expanded(
-                  flex:1,
+                  flex:2,
                   child: new Text('策略说明:'),
                 ),
                 
                 new Expanded(
-                  flex:5,
+                  flex:9,
                   child: new TextField(
                         decoration: InputDecoration(),
 
@@ -102,12 +101,12 @@ class StrategyBasic extends StatelessWidget
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: <Widget>[
                 new Expanded(
-                  flex:1,
+                  flex:2,
                   child: new Text('选股个数:'),
                 ),
                 
                 new Expanded(
-                  flex:5,
+                  flex:9,
                   child: new TextField(
 
                         keyboardType: TextInputType.number,//键盘类型，数字键盘
@@ -138,12 +137,12 @@ class StrategyBasic extends StatelessWidget
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: <Widget>[
                 new Expanded(
-                  flex:1,
+                  flex:2,
                   child: new Text('调仓天数:'),
                 ),
                 
                 new Expanded(
-                  flex:5,
+                  flex:9,
                   child: new TextField(
                         
                         keyboardType: TextInputType.number,//键盘类型，数字键盘
@@ -172,12 +171,12 @@ class StrategyBasic extends StatelessWidget
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: <Widget>[
                 new Expanded(
-                  flex:1,
+                  flex:2,
                   child: new Text('选股范围:'),
                 ),
                 
                 new Expanded(
-                  flex:5,
+                  flex:9,
                   child: new LearnDropdownButton(m_ModelInfo,this.m_IsMakeNewModel), 
                 ),
            ]
@@ -190,12 +189,12 @@ class StrategyBasic extends StatelessWidget
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: <Widget>[
                 new Expanded(
-                  flex:1,
+                  flex:2,
                   child: new Text('选股行业:'),
                 ),
                 
                 new Expanded(
-                  flex:5,
+                  flex:9,
                   child: new IndustryList(this.m_ModelInfo,this.m_IsMakeNewModel),
                 ),
            ]

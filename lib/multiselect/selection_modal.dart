@@ -247,7 +247,7 @@ class _SelectionModalState extends State<SelectionModal> {
                     ),
                   ),
                   filled: true,
-                  hintText: "Search...",
+                  hintText: "查找...",
                   fillColor: Colors.white,
                   suffix: SizedBox(
                       height: 25.0,

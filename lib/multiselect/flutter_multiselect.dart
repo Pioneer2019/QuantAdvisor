@@ -25,7 +25,7 @@ class MultiSelect extends FormField<dynamic> {
       dynamic initialValue,
       bool autovalidate = false,
       this.titleText = 'Title',
-      this.hintText = 'Tap to select one or more...',
+      this.hintText = '按下后选择项目...',
       this.required = false,
       this.errorText = 'Please select one or more option(s)',
       this.value,
