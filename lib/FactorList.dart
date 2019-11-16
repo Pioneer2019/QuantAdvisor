@@ -32,71 +32,72 @@ class _FactorListState extends State<FactorList>
   @override
   Widget build(BuildContext context)
   {
-      return Column(children: <Widget>[
-        new Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-                new Expanded(
-                    flex:2,
-                    child: new Text('因子',
-                        textAlign: TextAlign.center),
-                  ),
-                  
+      return new Column(
+          children: <Widget>[
+          new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                   new Expanded(
-                    flex:1,
-                    child: new Text('方向',
-                        textAlign: TextAlign.center),
-                  ),
+                      flex:2,
+                      child: new Text('因子',
+                          textAlign: TextAlign.center),
+                    ),
+                    
+                    new Expanded(
+                      flex:1,
+                      child: new Text('方向',
+                          textAlign: TextAlign.center),
+                    ),
 
-                  new Expanded(
-                    flex:1,
-                    child: new Text('权重',
-                        textAlign: TextAlign.center),
+                    new Expanded(
+                      flex:1,
+                      child: new Text('权重',
+                          textAlign: TextAlign.center),
 
-                  ),
+                    ),
 
-                  new Expanded(
-                    flex:1,
-                    child: 
-                      new Row(
-                        children: <Widget>[
-                          new Text('操作 ',
-                          textAlign: TextAlign.left
-                          ),
+                    new Expanded(
+                      flex:1,
+                      child: 
+                        new Row(
+                          children: <Widget>[
+                            new Text('操作 ',
+                            textAlign: TextAlign.left
+                            ),
 
-                          new GestureDetector(
-                            onTap:() async{
-                              //为了保存数据，先新建一个Factor
-                              if (widget.IsMakeNewModel){
-                                SharedData.instance.AddNewFactor4NewModel();
-                              }
-                              else{
-                                widget.m_ModeInfo.FactorList.add(new FactorInModel());
-                              }
-
-                              widget.IsCreateNewFactor = await Navigator.push(
-                                context,
-                                new MaterialPageRoute(builder: (context) => 
-                                  new NewFactor4Model(widget.m_ModeInfo,widget.IsMakeNewModel))
-                                );
-
+                            new GestureDetector(
+                              onTap:() async{
+                                //为了保存数据，先新建一个Factor
                                 if (widget.IsMakeNewModel){
-                                  setState((){
-                                      
-                                  });
+                                  SharedData.instance.AddNewFactor4NewModel();
                                 }
-                            },
+                                else{
+                                  widget.m_ModeInfo.FactorList.add(new FactorInModel());
+                                }
 
-                            child: new Icon(
-                              Icons.add_box,
+                                widget.IsCreateNewFactor = await Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(builder: (context) => 
+                                    new NewFactor4Model(widget.m_ModeInfo,widget.IsMakeNewModel))
+                                  );
+
+                                  if (widget.IsMakeNewModel){
+                                    setState((){
+                                        
+                                    });
+                                  }
+                              },
+
+                              child: new Icon(
+                                Icons.add_box,
+                              )
                             )
-                          )
-                        ],
-                      )
-                      
-                  ),
-            ],
-          ),
+                          ],
+                        )
+                        
+                    ),
+              ],
+            ),
         new Divider(),
 
         new Flexible(
@@ -106,7 +107,7 @@ class _FactorListState extends State<FactorList>
         
 
       ],
-      );
+    );
   }
 }
 
