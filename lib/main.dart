@@ -204,9 +204,13 @@ class StrategyListState extends State<StrategyList>
   {
       SharedData.instance.m_Mainform_StrategyList = this;
 
-      return new Column(
+      return Scrollbar( // 显示进度条
+      child: SingleChildScrollView(
+        child: new Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: GetModelList(),
+        ),
+      ),
       );
         
   }

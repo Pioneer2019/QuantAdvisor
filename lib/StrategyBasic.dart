@@ -21,7 +21,8 @@ class StrategyBasic extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
-    return new Flex(
+    return new SingleChildScrollView(
+    child: Flex(
        direction: Axis.vertical,
        children: <Widget>[
          new Row(
@@ -29,7 +30,7 @@ class StrategyBasic extends StatelessWidget
            children: <Widget>[
                 new Expanded(
                   flex:1,
-                  child: new Text('模型名称'),
+                  child: new Text('模型名称:'),
                 ),
                 
                 new Expanded(
@@ -65,7 +66,7 @@ class StrategyBasic extends StatelessWidget
            children: <Widget>[
                 new Expanded(
                   flex:1,
-                  child: new Text('策略说明'),
+                  child: new Text('策略说明:'),
                 ),
                 
                 new Expanded(
@@ -97,43 +98,12 @@ class StrategyBasic extends StatelessWidget
          ),
 
         //new Divider(),
-
         new Row(
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: <Widget>[
                 new Expanded(
                   flex:1,
-                  child: new Text('选股范围'),
-                ),
-                
-                new Expanded(
-                  flex:5,
-                  child: new LearnDropdownButton(m_ModelInfo,this.m_IsMakeNewModel), 
-                ),
-           ]
-         ),
-
-         new Row(
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-           children: <Widget>[
-                new Expanded(
-                  flex:1,
-                  child: new Text('选股行业'),
-                ),
-                
-                new Expanded(
-                  flex:5,
-                  child: new IndustryList(this.m_ModelInfo,this.m_IsMakeNewModel),
-                ),
-           ]
-         ),
-
-          new Row(
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-           children: <Widget>[
-                new Expanded(
-                  flex:1,
-                  child: new Text('选股个数'),
+                  child: new Text('选股个数:'),
                 ),
                 
                 new Expanded(
@@ -169,7 +139,7 @@ class StrategyBasic extends StatelessWidget
            children: <Widget>[
                 new Expanded(
                   flex:1,
-                  child: new Text('调仓天数'),
+                  child: new Text('调仓天数:'),
                 ),
                 
                 new Expanded(
@@ -198,7 +168,43 @@ class StrategyBasic extends StatelessWidget
            ]
          ),
 
+        new Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: <Widget>[
+                new Expanded(
+                  flex:1,
+                  child: new Text('选股范围:'),
+                ),
+                
+                new Expanded(
+                  flex:5,
+                  child: new LearnDropdownButton(m_ModelInfo,this.m_IsMakeNewModel), 
+                ),
+           ]
+         ),
+
+         
+         new SizedBox(
+           height: 200,
+           child:Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: <Widget>[
+                new Expanded(
+                  flex:1,
+                  child: new Text('选股行业:'),
+                ),
+                
+                new Expanded(
+                  flex:5,
+                  child: new IndustryList(this.m_ModelInfo,this.m_IsMakeNewModel),
+                ),
+           ]
+         ),
+         ),
+          
+
        ], 
+    ),
     );
   }
 }
