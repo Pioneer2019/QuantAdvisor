@@ -52,7 +52,7 @@ class _newStrategyPageState extends State<newStrategyPage> with SingleTickerProv
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomPadding: true,
           appBar: AppBar(
             title: Text('新建策略'),
             bottom: TabBar(

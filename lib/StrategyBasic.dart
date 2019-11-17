@@ -96,6 +96,39 @@ class StrategyBasic extends StatelessWidget
            ]
          ),
 
+         new Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: <Widget>[
+                new Expanded(
+                  flex:2,
+                  child: new Text('选股范围:'),
+                ),
+                
+                new Expanded(
+                  flex:9,
+                  child: new LearnDropdownButton(m_ModelInfo,this.m_IsMakeNewModel), 
+                ),
+           ]
+         ),
+
+        new SizedBox(
+           height: 200,
+           child:Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: <Widget>[
+                new Expanded(
+                  flex:2,
+                  child: new Text('选股行业:'),
+                ),
+                
+                new Expanded(
+                  flex:9,
+                  child: new IndustryList(this.m_ModelInfo,this.m_IsMakeNewModel),
+                ),
+           ]
+         ),
+         ),
+
         //new Divider(),
         new Row(
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -133,7 +166,7 @@ class StrategyBasic extends StatelessWidget
            ]
          ),
           
-          new Row(
+         new Row(
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: <Widget>[
                 new Expanded(
@@ -165,40 +198,6 @@ class StrategyBasic extends StatelessWidget
                         ), 
                 ),
            ]
-         ),
-
-        new Row(
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-           children: <Widget>[
-                new Expanded(
-                  flex:2,
-                  child: new Text('选股范围:'),
-                ),
-                
-                new Expanded(
-                  flex:9,
-                  child: new LearnDropdownButton(m_ModelInfo,this.m_IsMakeNewModel), 
-                ),
-           ]
-         ),
-
-         
-         new SizedBox(
-           height: 200,
-           child:Row(
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-           children: <Widget>[
-                new Expanded(
-                  flex:2,
-                  child: new Text('选股行业:'),
-                ),
-                
-                new Expanded(
-                  flex:9,
-                  child: new IndustryList(this.m_ModelInfo,this.m_IsMakeNewModel),
-                ),
-           ]
-         ),
          ),
           
 
