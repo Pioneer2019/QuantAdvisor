@@ -215,7 +215,7 @@ class StrategyListState extends State<StrategyList>
         
   }
 
-  //删除当前模型
+  //弹出对话框，确认是否删除当前模型
   _deleteCurrentModel(String modelName) {
     return showDialog<void>(
       context: context,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uitest2/showdialog.dart';
 import 'dropdownBtn_factor.dart';
 
 //import 'dropdownBtn_func.dart';
@@ -30,6 +31,28 @@ class NewFactorFilter4Model extends StatefulWidget{
 }
 
 class _NewFactorFilter4ModelState extends State<NewFactorFilter4Model>{
+
+  //判断因子筛选条件是否重复了
+  bool checkDuplicateCond(){
+    List<Cond> condList;
+    String newCondName = '';
+    if (this.widget.m_IsMakeNewModel){
+      newCondName = SharedData.instance.m_ModelInfoEx4New.CondList[SharedData.instance.m_ModelInfoEx4New.CondList.length-1].CondName;
+      condList = SharedData.instance.m_ModelInfoEx4New.CondList;
+    }
+    else{
+      newCondName = this.widget.m_ModeInfo.CondList[this.widget.m_ModeInfo.CondList.length-1].CondName;
+      condList = this.widget.m_ModeInfo.CondList;
+    }
+
+    for(int i=0;i < condList.length-1;i++){
+      if (condList[i].CondName == newCondName){
+        return false;
+      }
+    }
+    return true;
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +93,12 @@ class _NewFactorFilter4ModelState extends State<NewFactorFilter4Model>{
             ],
             onTap:  (index) {
               if (index == 0){
+
+                bool br = checkDuplicateCond();
+                if (br==false){
+                  Dialog4Save.instance.ShowDialog_DuplicateFactor(context,'因子');
+                  return;
+                }
                 //保存因子
                 Navigator.pop(context,true);
               }

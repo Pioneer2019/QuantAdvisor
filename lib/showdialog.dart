@@ -159,4 +159,26 @@ class Dialog4Save {
     );
   }
 
+  //弹出对话框，说明因子重复
+  ShowDialog_DuplicateFactor(BuildContext context,String fieldName) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('该$fieldName已经存在，请换为其它$fieldName'),
+          actions: <Widget>[
+
+            FlatButton(
+              child: Text('确定',
+              style: new TextStyle(fontSize: 18),),
+              onPressed: () async {
+                Navigator.of(context).pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
