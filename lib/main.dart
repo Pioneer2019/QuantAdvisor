@@ -82,7 +82,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               }
               else if (index ==1){
-                RefreshUI();
+                //RefreshUI();
+                SharedData.instance.m_Mainform_StrategyList.GetModelListAsync();
+
               }
               else if (index ==2){
                 await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
