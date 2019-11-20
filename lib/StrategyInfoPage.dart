@@ -9,7 +9,7 @@ import 'FactorFilterList.dart';
 
 import 'backTest.dart';
 import 'showdialog.dart';
-
+import 'trade.dart';
 
 class StrategyInfoPage extends StatefulWidget {
   
@@ -193,7 +193,7 @@ class TabBarView_StrategyInfo2 extends StatelessWidget
                 color: Color(0xffffffff),
                 alignment: Alignment.topCenter,
                 padding: EdgeInsets.all(8),
-                child: new FactorFilterList(m_ModelInfo,false),
+                child: new TradePage(m_ModelInfo.ModelName),
               ),
 
             ],

@@ -32,6 +32,12 @@ class WebAPIHelper {
 
   final _url_RemoveModel = 'http://47.102.210.159:3939/RemoveModel?';
 
+  final _url_GetSimPos = 'http://47.102.210.159:3939/GetSimPos?';
+
+  final _url_GetOrders = 'http://47.102.210.159:3939/GetOrders?';
+
+  final _url_SubmitOrders = 'http://47.102.210.159:3939/SubmitOrders';
+
   //缓存的模型列表
   List<ModelInfo> m_Cache_ModelList = new List();
   
@@ -283,7 +289,7 @@ class WebAPIHelper {
     return fc;
   }
 
-  //得到模型信息
+  //回测
   Future<String> TestModel(String name, String begin, String end) async {
     var httpClient = new HttpClient();
 
@@ -307,6 +313,89 @@ class WebAPIHelper {
     }
 
     return result;
+  }
+
+  //模拟持仓
+  Future<String> GetSimPos(String name) async {
+    var httpClient = new HttpClient();
+
+    String result;
+
+    try {
+      String url = this._url_GetSimPos+"model_name=$name";
+      print(url);
+      var request = await httpClient.getUrl(Uri.parse(url));
+      var response = await request.close();
+      if (response.statusCode == HttpStatus.ok) {
+        var json = await response.transform(utf8.decoder).join();
+        result = json;
+
+      } else {
+        result =
+            'Error getting IP address:\nHttp status ${response.statusCode}';
+      }
+    } catch (exception) {
+      result = 'Failed getting IP address';
+    }
+
+    return result;
+  }
+
+  //模拟持仓
+  Future<String> GetOrders(String name, int amount) async {
+    var httpClient = new HttpClient();
+
+    String result;
+
+    try {
+      String url = this._url_GetOrders+"model_name=$name&amount=$amount";
+      print(url);
+      var request = await httpClient.getUrl(Uri.parse(url));
+      var response = await request.close();
+      if (response.statusCode == HttpStatus.ok) {
+        var json = await response.transform(utf8.decoder).join();
+        result = json;
+
+      } else {
+        result =
+            'Error getting IP address:\nHttp status ${response.statusCode}';
+      }
+    } catch (exception) {
+      result = 'Failed getting IP address';
+    }
+
+    return result;
+  }
+
+  SubmitOrders(model_name, orders) async {
+    
+    String result='';
+
+    var httpClient = new HttpClient();
+
+    try {   
+      String orderStr = jsonEncode(orders);
+      print(orderStr);
+      orderStr = '{"model_name":"$model_name", "orders":$orderStr }';
+
+      var request = await httpClient.postUrl(Uri.parse(this._url_SubmitOrders));
+      request.add(utf8.encode(orderStr));
+
+      var response = await request.close();
+
+      print(response.statusCode);
+
+      if (response.statusCode == HttpStatus.ok) {
+        var json = await response.transform(utf8.decoder).join();
+        print(json);
+        return json;
+      }
+
+    } catch (exception) {
+      result = 'Failed jsonEncode';
+      print(exception);
+    }
+    return "";
   }
 
   //返回函数列表
