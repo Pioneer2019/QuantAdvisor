@@ -73,6 +73,8 @@ class _FactorListState extends State<FactorList>
                                 }
                                 else{
                                   widget.m_ModeInfo.FactorList.add(new FactorInModel());
+                                  //设置缺省值
+                                  SharedData.instance.SetDefaultValue4NewFactor(widget.m_ModeInfo.FactorList[widget.m_ModeInfo.FactorList.length-1]);
                                 }
 
                                 widget.IsCreateNewFactor = await Navigator.push(

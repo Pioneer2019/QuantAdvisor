@@ -54,36 +54,7 @@ class _LearnDropdownButton extends State<LearnDropdownButton>{
       value: '中证800',
     );
     items.add(dropdownMenuItem4);
-    DropdownMenuItem dropdownMenuItem5=new DropdownMenuItem(
-      child:new Text('0725'),
-      value: '0725',
-    );
-    items.add(dropdownMenuItem5);
-    DropdownMenuItem dropdownMenuItem6=new DropdownMenuItem(
-      child:new Text('0811'),
-      value: '0811',
-    );
-    items.add(dropdownMenuItem6);
-    DropdownMenuItem dropdownMenuItem7=new DropdownMenuItem(
-      child:new Text('pool-0610'),
-      value: 'pool-0610',
-    );
-    items.add(dropdownMenuItem7);
-    DropdownMenuItem dropdownMenuItem8=new DropdownMenuItem(
-      child:new Text('pool-0910'),
-      value: 'pool-0910',
-    );
-    items.add(dropdownMenuItem8);
-    DropdownMenuItem dropdownMenuItem9=new DropdownMenuItem(
-      child:new Text('pool-20180513'),
-      value: 'pool-20180513',
-    );
-    items.add(dropdownMenuItem9);
-    DropdownMenuItem dropdownMenuItem10=new DropdownMenuItem(
-      child:new Text('中小市值'),
-      value: '中小市值',
-    );
-    items.add(dropdownMenuItem10);
+    
     return items;
   }
 

@@ -181,4 +181,28 @@ class Dialog4Save {
       },
     );
   }
+
+  //弹出对话框，说明没有输入因子
+  ShowDialog_FieldIsEmpty(BuildContext context,String fieldName) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('$fieldName为空，请选择$fieldName'),
+          actions: <Widget>[
+
+            FlatButton(
+              child: Text('确定',
+              style: new TextStyle(fontSize: 18),),
+              onPressed: () async {
+                Navigator.of(context).pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

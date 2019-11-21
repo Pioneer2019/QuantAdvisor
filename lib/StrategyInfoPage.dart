@@ -123,8 +123,8 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
                 //保存模型信息
                 WebAPIHelper.instance.SaveModelInfo(modelInfo4Save);
 
-                //返回到调用页面
-                Navigator.pop(context,true);
+                ////返回到调用页面
+                //Navigator.pop(context,true);
               }
               else if (index == 1){
                 //另存为另一个模型，复制一个模型，然后弹出一个对话框，输入新的模型名称

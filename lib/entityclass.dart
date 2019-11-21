@@ -167,7 +167,7 @@ class FactorInModel{
 
 class Cond{
 
-  String CondName;
+  String CondName = '';
 
   int CondMin = 0;
 

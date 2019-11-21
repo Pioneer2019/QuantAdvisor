@@ -155,7 +155,7 @@ class _WeightFactorFilterSlider extends State<WeightFactorFilterSlider> {
                 style: TextStyle(fontSize: 16),),
 
         new Slider(
-          value: _value,
+          value: weight.toDouble(),
           min: 0,
             max: 100,
           onChanged: (newValue) {

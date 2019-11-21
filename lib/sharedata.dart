@@ -25,14 +25,20 @@ class SharedData {
   ModelInfoEx4Save m_ModelInfoEx4New = new ModelInfoEx4Save();
 
   ClearModelInfoEx4New(ModelInfoEx4Save modelInfoEx){
-    m_ModelInfoEx4New.ModelName='';
-    m_ModelInfoEx4New.ModelDesc='';
-    m_ModelInfoEx4New.NumStock=0;
-    m_ModelInfoEx4New.IndustryList = new List();
-    m_ModelInfoEx4New.DefaultInterval=0;
-    m_ModelInfoEx4New.StockRange='';
-    m_ModelInfoEx4New.FactorList = new List();
-    m_ModelInfoEx4New.CondList = new List();
+    modelInfoEx.ModelName='';
+    modelInfoEx.ModelDesc='';
+    modelInfoEx.NumStock=0;
+    modelInfoEx.IndustryList = new List();
+    modelInfoEx.DefaultInterval=0;
+    modelInfoEx.StockRange='';
+    modelInfoEx.FactorList = new List();
+    modelInfoEx.CondList = new List();
+
+    //设置 初始化值
+    modelInfoEx.StockRange='全市场';
+    modelInfoEx.IndustryList.add('全行业');
+    modelInfoEx.NumStock=20;
+    modelInfoEx.DefaultInterval=20;
   }
 
   /////////////////////////////////////////////////////////////////////////
@@ -48,6 +54,15 @@ class SharedData {
 
   void AddNewFactor4NewModel(){
     m_ModelInfoEx4New.FactorList.add(new FactorInModel());
+
+    //增加缺省值
+    SetDefaultValue4NewFactor(m_ModelInfoEx4New.FactorList[m_ModelInfoEx4New.FactorList.length-1]);
+  }
+
+  //设置新建因子的缺省值
+  void SetDefaultValue4NewFactor(FactorInModel factor){
+    factor.FactorFunc='Linear';
+    factor.FactorWeight=1;
   }
 
   FactorInModel GetNewFactor4NewModel(){
@@ -64,7 +79,14 @@ class SharedData {
   }
 
   void AddNewCondition4NewModel(){
-    m_ModelInfoEx4New.CondList.add(new Cond());
+    var cond = new Cond();
+    SetDefaultValue4NewCond(cond);
+    m_ModelInfoEx4New.CondList.add(cond);
+  }
+
+  void SetDefaultValue4NewCond(Cond cond){
+    cond.CondMin=0;
+    cond.CondMax=100;
   }
 
   Cond GetNewCondition4NewModel(){

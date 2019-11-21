@@ -52,7 +52,22 @@ class _NewFactor4ModelState extends State<NewFactor4Model>{
       }
     }
     return true;
+  }
 
+  //判断是否没有选择因子
+  bool checkFactorNameIsEmpty(){
+    String newFactorName = '';
+    if (this.widget.m_IsMakeNewModel){
+      newFactorName = SharedData.instance.m_ModelInfoEx4New.FactorList[SharedData.instance.m_ModelInfoEx4New.FactorList.length-1].FactorName;
+    }
+    else{
+      newFactorName = this.widget.m_ModeInfo.FactorList[this.widget.m_ModeInfo.FactorList.length-1].FactorName;
+    }
+
+    if (newFactorName.isEmpty){
+      return false;
+    }
+    return true;
   }
 
   @override
@@ -76,10 +91,13 @@ class _NewFactor4ModelState extends State<NewFactor4Model>{
 
                 new DropdownBtnFactor(widget.m_ModeInfo,widget.m_IsMakeNewModel, FactorOrCondition.Factor),
 
-                new Text('选择函数：',
+                new Text('函数：',
                 style: TextStyle(fontSize: 16),),
-                new DropdownBtnFunc(widget.m_ModeInfo,widget.m_IsMakeNewModel),
-                
+                //new DropdownBtnFunc(widget.m_ModeInfo,widget.m_IsMakeNewModel),
+                new Text(''),
+                new Text('Linear'),
+                new Divider(),
+                new Text(''),
                 new WeightSlider(widget.m_ModeInfo,widget.m_IsMakeNewModel),
             
           ]
@@ -97,7 +115,13 @@ class _NewFactor4ModelState extends State<NewFactor4Model>{
             onTap:  (index) {
               if (index == 0){
                 //先判断 是否已经存在了相同的因子
-                bool br = this.checkDuplicateFactor();
+                bool br = checkFactorNameIsEmpty();
+                if (br==false){
+                  Dialog4Save.instance.ShowDialog_FieldIsEmpty(context,'因子');
+                  return;
+                }
+
+                br = this.checkDuplicateFactor();
                 if (br==false){
                   Dialog4Save.instance.ShowDialog_DuplicateFactor(context,'因子');
                   return;

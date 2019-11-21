@@ -64,7 +64,9 @@ class _FactorFilterListState extends State<FactorFilterList>
                               SharedData.instance.AddNewCondition4NewModel();
                             }
                             else{
-                              widget.m_ModeInfo.CondList.add(new Cond());
+                              var cond = new Cond();
+                              SharedData.instance.SetDefaultValue4NewCond(cond);
+                              widget.m_ModeInfo.CondList.add(cond);
                             }
 
                             widget.IsCreateNewFactor = await Navigator.push(
