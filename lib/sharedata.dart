@@ -4,6 +4,7 @@ import 'entityclass.dart';
 import 'entityclass.dart';
 import 'entityclass.dart';
 import 'main.dart';
+import 'dropdownBtn_factor.dart';
 
 class SharedData {
   // 工厂模式
@@ -115,6 +116,16 @@ class SharedData {
     
     return modelInfo4Save;
   }
+
+  //当用户新建因子时，选择因子类别时，记录选择的因子类别
+  String m_FactorType_NewFactor = '';
+
+  //当用户新建因子选择条件时，选择因子类别时，记录选择的因子类别
+  String m_FactorType_NewCond = '';
+
+  //指向因子下拉列表框控件
+  DropdownBtnFactorState m_dropdownFactorState;
+
 }
 
 enum FactorOrCondition{

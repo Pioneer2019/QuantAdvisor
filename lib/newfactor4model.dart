@@ -86,9 +86,14 @@ class _NewFactor4ModelState extends State<NewFactor4Model>{
         crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
 
+                new Text('选择因子类别：',
+                style: TextStyle(fontSize: 16),),
+                new DropdownBtnFactorType(widget.m_ModeInfo,widget.m_IsMakeNewModel, FactorOrCondition.Factor),
+
                 new Text('选择因子：',
                 style: TextStyle(fontSize: 16),),
 
+                //new DropdownBtnFactor(widget.m_ModeInfo,widget.m_IsMakeNewModel, FactorOrCondition.Factor),
                 new DropdownBtnFactor(widget.m_ModeInfo,widget.m_IsMakeNewModel, FactorOrCondition.Factor),
 
                 new Text('函数：',
@@ -97,7 +102,6 @@ class _NewFactor4ModelState extends State<NewFactor4Model>{
                 new Text(''),
                 new Text('Linear'),
                 new Divider(),
-                new Text(''),
                 new WeightSlider(widget.m_ModeInfo,widget.m_IsMakeNewModel),
             
           ]

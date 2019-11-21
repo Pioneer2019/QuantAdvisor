@@ -123,6 +123,8 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
                 //保存模型信息
                 WebAPIHelper.instance.SaveModelInfo(modelInfo4Save);
 
+                Dialog4Save.instance.ShowDialog_MsgBox(context, '模型保存成功!');
+
                 ////返回到调用页面
                 //Navigator.pop(context,true);
               }

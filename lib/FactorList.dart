@@ -67,6 +67,10 @@ class _FactorListState extends State<FactorList>
 
                             new GestureDetector(
                               onTap:() async{
+
+                                //清空要保存的 FactorType
+                                SharedData.instance.m_FactorType_NewFactor='';
+
                                 //为了保存数据，先新建一个Factor
                                 if (widget.IsMakeNewModel){
                                   SharedData.instance.AddNewFactor4NewModel();

@@ -85,6 +85,10 @@ class _NewFactorFilter4ModelState extends State<NewFactorFilter4Model>{
         crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
 
+                new Text('选择因子类别：',
+                style: TextStyle(fontSize: 16),),
+                new DropdownBtnFactorType(widget.m_ModeInfo,widget.m_IsMakeNewModel, FactorOrCondition.Condition),
+
                 new Text('选择因子：',
                 style: TextStyle(fontSize: 16),),
 
