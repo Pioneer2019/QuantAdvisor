@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-import 'package:uitest2/entityclass.dart';
-import 'package:uitest2/sharedata.dart';
+import 'entityclass.dart';
+import 'sharedata.dart';
 
 import 'newStrategy.dart';
 import 'StrategyInfoPage.dart';

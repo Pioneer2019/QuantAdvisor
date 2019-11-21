@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:uitest2/entityclass.dart';
-import 'package:uitest2/sharedata.dart';
-import 'package:uitest2/webapihelper.dart';
+import 'entityclass.dart';
+import 'sharedata.dart';
+import 'webapihelper.dart';
 
 import 'StrategyBasic.dart';
 import 'FactorList.dart';

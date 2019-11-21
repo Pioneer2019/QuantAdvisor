@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uitest2/entityclass.dart';
-import 'package:uitest2/sharedata.dart';
+import 'entityclass.dart';
+import 'sharedata.dart';
 
 import 'newfactor4model.dart';
 import 'newfactorfilter4model.dart';
