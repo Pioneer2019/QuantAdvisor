@@ -25,18 +25,22 @@ class _TradePageState extends State<TradePage>
       String strPos = await WebAPIHelper.instance.GetSimPos(m_ModelName);
       print(strPos);
       if (strPos.length > 0) {
-        setState(() {
-          m_posData = jsonDecode(strPos) as List;
-        });
+        if (mounted) {
+          setState(() {
+            m_posData = jsonDecode(strPos) as List;
+          });
+        }
       }
   }
   void GetOrders() async {
       String strOrders = await WebAPIHelper.instance.GetOrders(m_ModelName, m_amount);
       print(strOrders);
       if (strOrders.length > 0) {
-        setState(() {
-          m_orderData = jsonDecode(strOrders) as List;
-        });
+        if (mounted) {
+          setState(() {
+            m_orderData = jsonDecode(strOrders) as List;
+          });
+        }
       }
   }
 
@@ -44,9 +48,11 @@ class _TradePageState extends State<TradePage>
       String strPos = await WebAPIHelper.instance.SubmitOrders(m_ModelName, m_orderData);
       print(strPos);
       if (strPos.length > 0) {
-        setState(() {
-          m_posData = jsonDecode(strPos) as List;
-        });
+        if (mounted) {
+          setState(() {
+            m_posData = jsonDecode(strPos) as List;
+          });
+        }
       }
   }
 
