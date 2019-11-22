@@ -27,13 +27,7 @@ class _LearnDropdownButton extends State<LearnDropdownButton>{
   List<DropdownMenuItem> getListData(){
     List<DropdownMenuItem> items=new List();
 
-    DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
-      child:new Text(''),
-      value: '',
-    );
-    items.add(dropdownMenuItem1);
-    
-    dropdownMenuItem1=new DropdownMenuItem(
+    DropdownMenuItem dropdownMenuItem1 = new DropdownMenuItem(
       child:new Text('全市场'),
       value: '全市场',
     );
@@ -73,6 +67,9 @@ class _LearnDropdownButton extends State<LearnDropdownButton>{
     }
     else{
       m_value = widget.m_ModelInfo.StockRange;  
+      if (m_value == ''){
+        m_value = '全市场';
+      }
     }
 
     return new DropdownButton(

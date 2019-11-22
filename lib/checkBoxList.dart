@@ -123,7 +123,7 @@ class IndustryListState extends State<IndustryList> {
                   required: true,
                   initialValue: m_data,
                   value: null,
-                  maxLength: 10,
+                  maxLength: 100,
                   change: valueChanged,
                
     );

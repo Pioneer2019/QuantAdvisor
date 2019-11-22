@@ -96,12 +96,15 @@ class _NewFactor4ModelState extends State<NewFactor4Model>{
                 //new DropdownBtnFactor(widget.m_ModeInfo,widget.m_IsMakeNewModel, FactorOrCondition.Factor),
                 new DropdownBtnFactor(widget.m_ModeInfo,widget.m_IsMakeNewModel, FactorOrCondition.Factor),
 
+                /*
                 new Text('函数：',
                 style: TextStyle(fontSize: 16),),
                 //new DropdownBtnFunc(widget.m_ModeInfo,widget.m_IsMakeNewModel),
                 new Text(''),
                 new Text('Linear'),
                 new Divider(),
+                */
+
                 new WeightSlider(widget.m_ModeInfo,widget.m_IsMakeNewModel),
             
           ]
