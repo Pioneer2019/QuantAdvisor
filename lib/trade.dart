@@ -91,9 +91,9 @@ class _TradePageState extends State<TradePage>
               children: <Widget>[
                 new TableCell(child:Text(NumberFormat("000000").format(m_posData[i]['Symbol']))),
                 new TableCell(child:Text(m_posData[i]['Name'])),
-                new TableCell(child:Text(m_posData[i]['Quantity'].toString())),
-                new TableCell(child:Text(m_posData[i]['Price'].toString())),
-                new TableCell(child:Text(m_posData[i]['LastPrice'].toString())),
+                new TableCell(child:Text(NumberFormat("##").format(m_posData[i]['Quantity']), textAlign: TextAlign.right)),
+                new TableCell(child:Text(NumberFormat("##.##").format(m_posData[i]['Price']), textAlign: TextAlign.right)),
+                new TableCell(child:Text(NumberFormat("##.##").format(m_posData[i]['LastPrice']), textAlign: TextAlign.right)),
               ]
             )
         );
@@ -116,9 +116,9 @@ class _TradePageState extends State<TradePage>
               children: <Widget>[
                 new TableCell(child:Text(NumberFormat("000000").format(m_orderData[i]['Symbol']))),
                 new TableCell(child:Text(m_orderData[i]['Name'])),
-                new TableCell(child:Text(m_orderData[i]['Quantity'].toString())),
-                new TableCell(child:Text(m_orderData[i]['Diff'].toString())),
-                new TableCell(child:Text(m_orderData[i]['LastPrice'].toString())),
+                new TableCell(child:Text(NumberFormat("##").format(m_orderData[i]['Quantity']), textAlign: TextAlign.right)),
+                new TableCell(child:Text(NumberFormat("##").format(m_orderData[i]['Diff']), textAlign: TextAlign.right)),
+                new TableCell(child:Text(NumberFormat("##.##").format(m_orderData[i]['LastPrice']), textAlign: TextAlign.right)),
               ]
             )
         );

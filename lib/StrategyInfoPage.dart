@@ -84,17 +84,17 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
       home: Scaffold(
         resizeToAvoidBottomInset: true,
           appBar: AppBar(
-            title: Text('策略详情'),
+            title: Text('策略详情  '+widget.m_ModelName),
             bottom: TabBar(
               controller: m_tabController,
               isScrollable: true,
               labelStyle: TextStyle(fontSize: 14.0,),
               tabs: <Widget>[
-                Tab(text: '基本设置',),
-                Tab(text: '打分设置',),
-                Tab(text: '筛选设置',),
+                Tab(text: '基本',),
+                Tab(text: '打分',),
+                Tab(text: '筛选',),
                 Tab(text: '回测',),
-                Tab(text: '选股交易',),
+                Tab(text: '交易',),
               ],
             ),
           ),
