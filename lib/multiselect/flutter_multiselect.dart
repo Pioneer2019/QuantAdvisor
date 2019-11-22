@@ -1,6 +1,7 @@
 library flutter_multiselect;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'selection_modal.dart';
 
 class MultiSelect extends FormField<dynamic> {
@@ -65,6 +66,81 @@ class MultiSelect extends FormField<dynamic> {
                 return selectedOptions;
               }
 
+              Widget _buildColumn(dynamic values, state) {
+
+                return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: RichText(
+                                      text: TextSpan(
+                                          text: titleText,
+                                          style: TextStyle(
+                                              fontSize: 16.0, color: Theme.of(state.context).primaryColor),
+                                          children: 
+                                              [
+                                                /*
+                                                  TextSpan(
+                                                    text: required ? ' *' : '',
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 16.0),
+                                                  ),
+                                                  TextSpan(
+                                                    text: maxLength != null ? '(最多 $maxLength)' : '',
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 13.0),
+                                                  )
+                                                  */
+                                                ]
+                                              ),
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.arrow_downward,
+                                        color: Theme.of(state.context).primaryColor,
+                                        size: 30.0,
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            (state.value == null || state.value == '' || (state.value != null &&  state.value.length == 0))
+                                ? new Container(
+                                    margin:
+                                        EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 6.0),
+                                    child: Text(
+                                      hintText,
+                                      style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                      ),
+                                    ),
+                                  ):
+                                  
+                                  Wrap(
+                                    spacing: 8.0, // gap between adjacent chips
+                                    runSpacing: 1.0, // gap between lines
+                                    children:
+                                        _buildSelectedOptions(state.value, state),
+                                  ),
+                                  
+                          ],
+                        );
+              }
+
               return InkWell(
                   onTap: () async {
                     var results = await Navigator.push(
@@ -108,73 +184,15 @@ class MultiSelect extends FormField<dynamic> {
                       errorMaxLines: 50,
                     ),
                     isEmpty: (state.value == null || state.value == '' || (state.value != null &&  state.value.length == 0)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                      text: titleText,
-                                      style: TextStyle(
-                                          fontSize: 16.0, color: Theme.of(state.context).primaryColor),
-                                      children: 
-                                          [
-                                              TextSpan(
-                                                text: required ? ' *' : '',
-                                                style: TextStyle(
-                                                    color: Colors.red,
-                                                    fontSize: 16.0),
-                                              ),
-                                              TextSpan(
-                                                text: maxLength != null ? '(最多 $maxLength)' : '',
-                                                style: TextStyle(
-                                                    color: Colors.red,
-                                                    fontSize: 13.0),
-                                              )
-                                            ]
-                                          ),
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.arrow_downward,
-                                    color: Theme.of(state.context).primaryColor,
-                                    size: 30.0,
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        (state.value == null || state.value == '' || (state.value != null &&  state.value.length == 0))
-                            ? new Container(
-                                margin:
-                                    EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 6.0),
-                                child: Text(
-                                  hintText,
-                                  style: TextStyle(
-                                    color: Colors.grey.shade500,
-                                  ),
-                                ),
-                              ):
-                              Wrap(
-                                spacing: 8.0, // gap between adjacent chips
-                                runSpacing: 1.0, // gap between lines
-                                children:
-                                    _buildSelectedOptions(state.value, state),
-                              )
-                            
-                      ],
-                    ),
+                    child: 
+
+                    state.value.length >= 10 ? 
+                      SingleChildScrollView(
+                          child: _buildColumn(state.value, state),
+                        )
+                    :
+                      _buildColumn(state.value, state),
+
                   ));
             });
 }
