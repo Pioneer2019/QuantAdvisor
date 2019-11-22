@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uitest2/showdialog.dart';
+import 'showdialog.dart';
 import 'dropdownBtn_factor.dart';
 
 //import 'dropdownBtn_func.dart';
@@ -51,7 +51,22 @@ class _NewFactorFilter4ModelState extends State<NewFactorFilter4Model>{
       }
     }
     return true;
+  }
 
+  //判断是否没有选择因子
+  bool checkCondNameIsEmpty(){
+    String newCondName = '';
+    if (this.widget.m_IsMakeNewModel){
+      newCondName = SharedData.instance.m_ModelInfoEx4New.CondList[SharedData.instance.m_ModelInfoEx4New.CondList.length-1].CondName;
+    }
+    else{
+      newCondName = this.widget.m_ModeInfo.CondList[this.widget.m_ModeInfo.CondList.length-1].CondName;
+    }
+
+    if (newCondName.isEmpty){
+      return false;
+    }
+    return true;
   }
 
   @override
@@ -69,6 +84,10 @@ class _NewFactorFilter4ModelState extends State<NewFactorFilter4Model>{
           child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+
+                new Text('选择因子类别：',
+                style: TextStyle(fontSize: 16),),
+                new DropdownBtnFactorType(widget.m_ModeInfo,widget.m_IsMakeNewModel, FactorOrCondition.Condition),
 
                 new Text('选择因子：',
                 style: TextStyle(fontSize: 16),),
@@ -94,11 +113,18 @@ class _NewFactorFilter4ModelState extends State<NewFactorFilter4Model>{
             onTap:  (index) {
               if (index == 0){
 
-                bool br = checkDuplicateCond();
+                bool br = checkCondNameIsEmpty();
+                if (br==false){
+                  Dialog4Save.instance.ShowDialog_FieldIsEmpty(context,'因子');
+                  return;
+                }
+
+                br = checkDuplicateCond();
                 if (br==false){
                   Dialog4Save.instance.ShowDialog_DuplicateFactor(context,'因子');
                   return;
                 }
+
                 //保存因子
                 Navigator.pop(context,true);
               }

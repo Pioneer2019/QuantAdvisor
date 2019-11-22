@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uitest2/entityclass.dart';
+import 'entityclass.dart';
 
 import 'sharedata.dart';
 import 'webapihelper.dart';
@@ -181,4 +181,51 @@ class Dialog4Save {
       },
     );
   }
+
+  //弹出对话框，说明没有输入因子
+  ShowDialog_FieldIsEmpty(BuildContext context,String fieldName) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('$fieldName为空，请选择$fieldName'),
+          actions: <Widget>[
+
+            FlatButton(
+              child: Text('确定',
+              style: new TextStyle(fontSize: 18),),
+              onPressed: () async {
+                Navigator.of(context).pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //弹出对话框，说明
+  ShowDialog_MsgBox(BuildContext context,String msg) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+
+            FlatButton(
+              child: Text('确定',
+              style: new TextStyle(fontSize: 18),),
+              onPressed: () async {
+                Navigator.of(context).pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

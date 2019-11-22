@@ -137,11 +137,13 @@ class ModelInfoEx4NewJson{
 
 class FactorInfo{
 
-  String UserID;
+  String UserID = '';
 
-  String FactorName;
+  String FactorName = '';
 
-  String FactorDesc;
+  String FactorDesc = '';
+
+  String FactorType = '';
 }
 
 
@@ -167,7 +169,7 @@ class FactorInModel{
 
 class Cond{
 
-  String CondName;
+  String CondName = '';
 
   int CondMin = 0;
 

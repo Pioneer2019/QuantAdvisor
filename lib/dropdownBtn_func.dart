@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:uitest2/entityclass.dart';
-import 'package:uitest2/newfactor4model.dart';
-import 'package:uitest2/webapihelper.dart';
+import 'entityclass.dart';
+import 'newfactor4model.dart';
+import 'webapihelper.dart';
 
 import 'sharedata.dart';
 

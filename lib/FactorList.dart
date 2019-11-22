@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:uitest2/entityclass.dart';
-import 'package:uitest2/newfactor4model.dart';
-import 'package:uitest2/sharedata.dart';
-import 'package:uitest2/webapihelper.dart';
+import 'entityclass.dart';
+import 'newfactor4model.dart';
+import 'sharedata.dart';
+import 'webapihelper.dart';
 
 class FactorList extends StatefulWidget{
 
@@ -67,12 +67,18 @@ class _FactorListState extends State<FactorList>
 
                             new GestureDetector(
                               onTap:() async{
+
+                                //清空要保存的 FactorType
+                                SharedData.instance.m_FactorType_NewFactor='';
+
                                 //为了保存数据，先新建一个Factor
                                 if (widget.IsMakeNewModel){
                                   SharedData.instance.AddNewFactor4NewModel();
                                 }
                                 else{
                                   widget.m_ModeInfo.FactorList.add(new FactorInModel());
+                                  //设置缺省值
+                                  SharedData.instance.SetDefaultValue4NewFactor(widget.m_ModeInfo.FactorList[widget.m_ModeInfo.FactorList.length-1]);
                                 }
 
                                 widget.IsCreateNewFactor = await Navigator.push(

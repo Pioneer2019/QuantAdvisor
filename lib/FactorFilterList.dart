@@ -60,11 +60,18 @@ class _FactorFilterListState extends State<FactorFilterList>
 
                         new GestureDetector(
                           onTap: () async {
+
+                            //清空要保存的 FactorType
+                            SharedData.instance.m_FactorType_NewCond='';
+
+                            //新建一个condition对象
                             if (widget.IsMakeNewModel){
                               SharedData.instance.AddNewCondition4NewModel();
                             }
                             else{
-                              widget.m_ModeInfo.CondList.add(new Cond());
+                              var cond = new Cond();
+                              SharedData.instance.SetDefaultValue4NewCond(cond);
+                              widget.m_ModeInfo.CondList.add(cond);
                             }
 
                             widget.IsCreateNewFactor = await Navigator.push(

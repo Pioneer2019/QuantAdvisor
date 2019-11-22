@@ -45,6 +45,7 @@ class WebAPIHelper {
   List<String> m_Cache_IndustryList = new List();
 
   //缓存的系统因子列表
+  Map<String,List<FactorInfo>> m_Cache_FactorTypeMapList = new Map();
   List<FactorInfo> m_Cache_FactorList = new List();
 
   //缓存的ModelInfoEx
@@ -148,13 +149,14 @@ class WebAPIHelper {
   }
 
   //得到因子列表
-  Future<List<FactorInfo>> GetFactorList() async {
+  Future<Map<String,List<FactorInfo>>> GetFactorList() async {
     
     var httpClient = new HttpClient();
 
-    List<FactorInfo> list = new List();
+    Map<String,List<FactorInfo>> factorMap = new Map();
+    m_Cache_FactorList.clear();
 
-    String result;
+    String result = '';
 
     try {
       var request = await httpClient.getUrl(Uri.parse(_url_GetFactorList));
@@ -169,8 +171,14 @@ class WebAPIHelper {
           factor.UserID = item['UserID'];
           factor.FactorName = item['FactorName'];
           factor.FactorDesc = item['FactorDesc'];
+          factor.FactorType = item['FactorType'];
 
-          list.add(factor);
+          m_Cache_FactorList.add(factor);
+
+          if (factorMap.containsKey(factor.FactorType)==false){
+            factorMap[factor.FactorType] = new List();  
+          }
+          factorMap[factor.FactorType].add(factor);
         }
 
       } else {
@@ -181,8 +189,8 @@ class WebAPIHelper {
       result = 'Failed getting IP address';
     }
 
-    m_Cache_FactorList = list;
-    return list;
+    this.m_Cache_FactorTypeMapList = factorMap;
+    return factorMap;
 
   }
 
