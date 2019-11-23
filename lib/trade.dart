@@ -174,7 +174,7 @@ class _TradePageState extends State<TradePage>
                   },
                 child: new Text(
                   m_action,
-                  style: TextStyle(fontSize: 13)
+                  style: TextStyle(fontSize: 13, color: Colors.redAccent)
                 ),
             ),
             Visibility(visible: m_action=="执行订单",
