@@ -46,6 +46,9 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
   @override
   void initState() {
 
+    //清除缓存的回测数据
+    SharedData.instance.ClearCachedBackTestData();
+
     _GetModelInfoExAsync();
 
     //print('初始化 数据...');

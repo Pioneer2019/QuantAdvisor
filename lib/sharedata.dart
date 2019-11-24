@@ -1,10 +1,14 @@
+import 'package:flutter/widgets.dart';
+
 import 'FactorFilterList.dart';
+import 'backTest.dart';
 import 'entityclass.dart';
 import 'entityclass.dart';
 import 'entityclass.dart';
 import 'entityclass.dart';
 import 'main.dart';
 import 'dropdownBtn_factor.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class SharedData {
   // 工厂模式
@@ -125,6 +129,27 @@ class SharedData {
 
   //指向因子下拉列表框控件
   DropdownBtnFactorState m_dropdownFactorState;
+
+
+  //缓存回测得到的数据，防止切换tab时丢失数据
+  String summary4BackTest="";
+
+  List<charts.Series<BacktestValue, DateTime>> seriesList4BackTest=[];
+
+  List<TableRow> transRows4BackTest = [];
+
+  double minValue4BackTest=0;
+  double maxValue4BackTest=1;
+  //清除 回测缓存数据
+  ClearCachedBackTestData(){
+    summary4BackTest='';
+
+    minValue4BackTest=0;
+    maxValue4BackTest=1;
+
+    seriesList4BackTest=[];
+    transRows4BackTest = [];
+  }
 
 }
 

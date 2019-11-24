@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:QuantAdvisorApp/sharedata.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -28,15 +29,52 @@ class _BackTestState extends State<BackTest>
   String m_endDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String m_Result = "";
   List<bool> isSelected = [true, false, false, false, false]; //半年，1年，3年，5年，10年
-  String summary="";
+  
+  //String summary="";
+  set summary(String value){
+    SharedData.instance.summary4BackTest = value;
+  }
+  String get summary{
+    return SharedData.instance.summary4BackTest;
+  }
+
   double model_annual_ret=0;
   double model_mdd=0;
   double model_sharpe=0;
   double avg_turnover=0;
-  List<charts.Series<BacktestValue, DateTime>> seriesList=[];
-  List<TableRow> transRows=[];
-  double minValue=0;
-  double maxValue=1;
+
+  //List<charts.Series<BacktestValue, DateTime>> seriesList=[];
+  set seriesList(List<charts.Series<BacktestValue, DateTime>> value){
+    SharedData.instance.seriesList4BackTest = value;
+  }
+  List<charts.Series<BacktestValue, DateTime>> get seriesList{
+    return SharedData.instance.seriesList4BackTest;
+  }
+
+  //List<TableRow> transRows=[];
+  set transRows(List<TableRow> value){
+    SharedData.instance.transRows4BackTest = value;
+  }
+  List<TableRow> get transRows{
+    return SharedData.instance.transRows4BackTest;
+  }
+
+  //double minValue=0;
+  set minValue(double value){
+    SharedData.instance.minValue4BackTest = value;
+  }
+  double get minValue{
+    return SharedData.instance.minValue4BackTest;
+  }
+
+  //double maxValue=1;
+  set maxValue(double value){
+    SharedData.instance.maxValue4BackTest = value;
+  }
+  double get maxValue{
+    return SharedData.instance.maxValue4BackTest;
+  }
+
   bool isTesting=false;
 
   _BackTestState(this.m_ModelName);
@@ -103,6 +141,10 @@ class _BackTestState extends State<BackTest>
                         setState(() {
                           isTesting = true;
                         });
+
+                        //清除缓存的回测数据
+                        SharedData.instance.ClearCachedBackTestData();
+
                         print("Start back test");
                         String result = await WebAPIHelper.instance.TestModel(widget.m_ModelName, m_startDate.replaceAll("-", ""), m_endDate.replaceAll("-", ""));
                         //print(json);
