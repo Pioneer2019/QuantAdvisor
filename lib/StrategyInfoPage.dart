@@ -37,9 +37,11 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
 
     ModelInfoEx m = await WebAPIHelper.instance.GetModelInfoExByName(widget.m_ModelName);
 
-    setState((){
-      widget.m_CurrentModel = m;
-    });
+    if (mounted){
+      setState((){
+        widget.m_CurrentModel = m;
+      });
+    }
 
   }
 
@@ -48,6 +50,8 @@ class _StrategyInfoPageState extends State<StrategyInfoPage> with SingleTickerPr
 
     //清除缓存的回测数据
     SharedData.instance.ClearCachedBackTestData();
+
+    SharedData.instance.ClearCachedTradeData();
 
     _GetModelInfoExAsync();
 

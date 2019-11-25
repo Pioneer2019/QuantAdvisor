@@ -25,9 +25,11 @@ class _FactorFilterListState extends State<FactorFilterList>
 {
   
   RefreshUI(){
-    setState(() {
-      
-    });
+    if (mounted){
+      setState(() {
+        
+      });
+    }
   }
 
   @override
@@ -81,9 +83,11 @@ class _FactorFilterListState extends State<FactorFilterList>
                               );
 
                               if (widget.IsMakeNewModel){
-                                setState((){
-                                    
-                                });
+                                if (mounted){
+                                  setState((){
+                                      
+                                  });
+                                }
                               }
                           },
                           child: new Icon(Icons.add_box),

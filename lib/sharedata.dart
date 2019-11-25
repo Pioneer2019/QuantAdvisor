@@ -151,6 +151,23 @@ class SharedData {
     transRows4BackTest = [];
   }
 
+
+  //模拟交易页面上缓存的数据，防止切换tab时丢失数据
+  String m_action4Trade = '调仓';
+
+  int m_amount4Trade=0;
+
+  List m_posData4Trade;
+
+  List m_orderData4Trade;
+
+  //清除 回测缓存数据
+  ClearCachedTradeData(){
+    m_action4Trade='调仓';
+    m_amount4Trade=100000;
+    m_posData4Trade = new List();
+    m_orderData4Trade = new List();
+  }
 }
 
 enum FactorOrCondition{

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'sharedata.dart';
 import 'webapihelper.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
@@ -17,10 +18,38 @@ class TradePage extends StatefulWidget
 
 class _TradePageState extends State<TradePage>
 {
-  List m_posData;
-  List m_orderData;
-  String m_action;
-  int m_amount;
+  //List m_posData;
+  set m_posData(List value){
+    SharedData.instance.m_posData4Trade = value;
+  }
+  List get m_posData{
+    return SharedData.instance.m_posData4Trade;
+  }
+
+  //List m_orderData;
+  set m_orderData(List value){
+    SharedData.instance.m_orderData4Trade = value;
+  }
+  List get m_orderData{
+    return SharedData.instance.m_orderData4Trade;
+  } 
+  
+  //String m_action;
+  set m_action(String value){
+    SharedData.instance.m_action4Trade = value;
+  }
+  String get m_action{
+    return SharedData.instance.m_action4Trade;
+  }
+
+  //int m_amount;
+  set m_amount(int value){
+    SharedData.instance.m_amount4Trade = value;
+  }
+  int get m_amount{
+    return SharedData.instance.m_amount4Trade;
+  }
+
   void GetSimPos() async {
       String strPos = await WebAPIHelper.instance.GetSimPos(m_ModelName);
       print(strPos);
@@ -58,10 +87,11 @@ class _TradePageState extends State<TradePage>
 
   String m_ModelName;
   _TradePageState(this.m_ModelName) {
-    m_amount = 100000;
-    m_action = "调仓";
-    m_posData = [];
-    m_orderData = [];
+
+    //m_amount = 100000;
+    //m_action = "调仓";
+    //m_posData = [];
+    //m_orderData = [];
     if (m_ModelName.length>0) {
       GetSimPos();
     }
@@ -159,6 +189,7 @@ class _TradePageState extends State<TradePage>
             RaisedButton(
               padding: EdgeInsets.all(10),
                   onPressed: () async {
+                    SharedData.instance.ClearCachedTradeData();
                     print(m_action);
                     if (m_action=="调仓") {
                       GetOrders();
