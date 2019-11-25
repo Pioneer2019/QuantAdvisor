@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: '我的模型'),
+      home: MyHomePage(title: '我的策略'),
     );
   }
 }
