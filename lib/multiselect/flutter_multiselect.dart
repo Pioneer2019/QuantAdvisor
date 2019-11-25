@@ -66,6 +66,7 @@ class MultiSelect extends FormField<dynamic> {
                 return selectedOptions;
               }
 
+              //构造column组件，里面放内容
               Widget _buildColumn(dynamic values, state) {
 
                 return Column(
