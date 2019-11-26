@@ -4,14 +4,16 @@ import 'package:intl/intl.dart';
 import 'sharedata.dart';
 import 'webapihelper.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'entityclass.dart';
 
 class TradePage extends StatefulWidget
 {
   String m_ModelName;
-
-  TradePage(pModelName){
-    m_ModelName = pModelName;
+  ModelInfoEx m_ModelInfo;
+  TradePage(this.m_ModelInfo) {
+    m_ModelName = m_ModelInfo.ModelName;
   }
+
   @override
   _TradePageState createState() => _TradePageState(m_ModelName);
 }

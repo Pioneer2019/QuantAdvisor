@@ -132,6 +132,7 @@ class SharedData {
 
 
   //缓存回测得到的数据，防止切换tab时丢失数据
+  List<bool> isSelected4BackTest = [true, false, false, false, false];
   String summary4BackTest="";
 
   List<charts.Series<BacktestValue, DateTime>> seriesList4BackTest=[];

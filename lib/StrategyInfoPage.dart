@@ -196,13 +196,13 @@ class TabBarView_StrategyInfo2 extends StatelessWidget
                 color: Color(0xffffffff),
                 alignment: Alignment.topCenter,
                 padding: EdgeInsets.all(8),
-                child: new BackTest(m_ModelInfo.ModelName),
+                child: new BackTest(m_ModelInfo),
               ),
               Container(
                 color: Color(0xffffffff),
                 alignment: Alignment.topCenter,
                 padding: EdgeInsets.all(8),
-                child: new TradePage(m_ModelInfo.ModelName),
+                child: new TradePage(m_ModelInfo),
               ),
 
             ],

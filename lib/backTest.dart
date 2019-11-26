@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'webapihelper.dart';
+import 'entityclass.dart';
 
 class BackTest extends StatefulWidget
 {
   String m_ModelName;
-  BackTest(this.m_ModelName);
+  ModelInfoEx m_ModelInfo;
+  BackTest(this.m_ModelInfo) {
+    m_ModelName = m_ModelInfo.ModelName;
+  }
   @override
   _BackTestState createState() => _BackTestState(m_ModelName);
 }
@@ -28,7 +32,17 @@ class _BackTestState extends State<BackTest>
   String m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 183)));
   String m_endDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String m_Result = "";
-  List<bool> isSelected = [true, false, false, false, false]; //半年，1年，3年，5年，10年
+
+  set isSelected(List<bool> value) {
+    print("setter");
+    print(value);
+    SharedData.instance.isSelected4BackTest = value;
+  }
+  List<bool> get isSelected {
+    print("getter");
+    print(SharedData.instance.isSelected4BackTest);
+    return SharedData.instance.isSelected4BackTest;
+  }
   
   //String summary="";
   set summary(String value){
@@ -110,20 +124,11 @@ class _BackTestState extends State<BackTest>
                           for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
                             if (buttonIndex == index) {
                               isSelected[buttonIndex] = true;
-                              if (index == 0)
-                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 183)));
-                              else if (index == 1)
-                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 365)));
-                              else if (index == 2)
-                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 365*3)));
-                              else if (index == 3)
-                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 365*5)));
-                              else if (index == 4)
-                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 365*10)));
                             } else {
                               isSelected[buttonIndex] = false;
                             }
                           }
+                          isSelected;
                         });
                       },
                       isSelected: isSelected,
@@ -147,6 +152,20 @@ class _BackTestState extends State<BackTest>
                         SharedData.instance.ClearCachedBackTestData();
 
                         print("Start back test");
+                        for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
+                            if (isSelected[buttonIndex] == true) {
+                              if (buttonIndex == 0)
+                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 183)));
+                              else if (buttonIndex == 1)
+                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 365)));
+                              else if (buttonIndex == 2)
+                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 365*3)));
+                              else if (buttonIndex == 3)
+                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 365*5)));
+                              else if (buttonIndex == 4)
+                                m_startDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 365*10)));
+                            }
+                        }
                         String result = await WebAPIHelper.instance.TestModel(widget.m_ModelName, m_startDate.replaceAll("-", ""), m_endDate.replaceAll("-", ""));
                         //print(json);
                         if (result.length > 0) {
