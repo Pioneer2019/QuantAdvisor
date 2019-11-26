@@ -56,6 +56,7 @@ class _BackTestState extends State<BackTest>
   double model_mdd=0;
   double model_sharpe=0;
   double avg_turnover=0;
+  double model_sum_ret=0;
 
   //List<charts.Series<BacktestValue, DateTime>> seriesList=[];
   set seriesList(List<charts.Series<BacktestValue, DateTime>> value){
@@ -176,8 +177,10 @@ class _BackTestState extends State<BackTest>
                           model_sharpe = data['model_sharpe'];
                           avg_turnover = data['avg_turnover']*100;
                           var formatter = new NumberFormat("#,###.##");
-                          summary = "年化收益率=${formatter.format(model_annual_ret)}%,最大回撤=${formatter.format(model_mdd)}%\n夏普比=${formatter.format(model_sharpe)},平均调仓换手率=${formatter.format(avg_turnover)}%";
+                          //summary = "年化收益率=${formatter.format(model_annual_ret)}%,最大回撤=${formatter.format(model_mdd)}%\n夏普比=${formatter.format(model_sharpe)},平均调仓换手率=${formatter.format(avg_turnover)}%";
                           var model_daily_rtn = data['model_daily_rtn'];
+                          model_sum_ret = (model_daily_rtn['Value'][model_daily_rtn['Value'].length-1].toDouble()-1)*100;
+                          summary = "总收益=${formatter.format(model_sum_ret)}%,年化收益率=${formatter.format(model_annual_ret)}%,最大回撤=${formatter.format(model_mdd)}%\n夏普比=${formatter.format(model_sharpe)},平均调仓换手率=${formatter.format(avg_turnover)}%";
                           print(model_daily_rtn['Value'].length);
                           List<BacktestValue> modelValue = [];
                           List<BacktestValue> hs300Value = [];
