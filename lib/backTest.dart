@@ -34,13 +34,13 @@ class _BackTestState extends State<BackTest>
   String m_Result = "";
 
   set isSelected(List<bool> value) {
-    print("setter");
-    print(value);
+    //print("setter");
+    //print(value);
     SharedData.instance.isSelected4BackTest = value;
   }
   List<bool> get isSelected {
-    print("getter");
-    print(SharedData.instance.isSelected4BackTest);
+    //print("getter");
+    //print(SharedData.instance.isSelected4BackTest);
     return SharedData.instance.isSelected4BackTest;
   }
   
